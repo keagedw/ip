@@ -11,8 +11,7 @@ public class Nikolaus {
         introduce();
         while (!exitFlag) {
             String line = in.nextLine();
-            Command command = handler.parse(line);
-            handler.execute(command);
+            Command command = handler.execute(line);
             exitFlag = handler.shouldExit(command);
         }
     }
