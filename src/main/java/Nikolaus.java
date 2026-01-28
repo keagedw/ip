@@ -1,33 +1,29 @@
+import java.util.Scanner;
+
 public class Nikolaus {
+    // setup for command replies
+    static String line;
+    static Scanner in = new Scanner(System.in);
+
     public static void main(String[] args) {
-        greet();
-        System.out.println();
-        bidFarewell();
+        introduce();
     }
 
-    public static void greet() {
-        String logo = "       ::::    :::   :::::::::::   :::    :::    ::::::::     :::              :::        :::    :::     :::::::: \n" +
-            "      :+:+:   :+:       :+:       :+:   :+:    :+:    :+:    :+:            :+: :+:      :+:    :+:    :+:    :+: \n" +
-            "     :+:+:+  +:+       +:+       +:+  +:+     +:+    +:+    +:+           +:+   +:+     +:+    +:+    +:+         \n" +
-            "    +#+ +:+ +#+       +#+       +#++:++      +#+    +:+    +#+          +#++:++#++:    +#+    +:+    +#++:++#++   \n" +
-            "   +#+  +#+#+#       +#+       +#+  +#+     +#+    +#+    +#+          +#+     +#+    +#+    +#+           +#+    \n" +
-            "  #+#   #+#+#       #+#       #+#   #+#    #+#    #+#    #+#          #+#     #+#    #+#    #+#    #+#    #+#     \n" +
-            " ###    ####   ###########   ###    ###    ########     ##########   ###     ###     ########      ########       ";
-        for (int i = 0; i < 114; i++) {
-            System.out.print('\u2500');
-        }
-        System.out.println();
-        System.out.println(logo);
-        for (int i = 0; i < 114; i++) {
-            System.out.print('\u2500');
-        }
-        System.out.println();
-        System.out.println("Greetings!!! I'm Nikolaus, your personal chatbot!!!");
-        System.out.println("What can I do for you today???");
+    public static void introduce() {
+        Logo.display();
+        Reply.sendReply("Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!", 1);
+        Reply.sendReply("How may I be of assistance today???", 2);
+        awaitCommand();
     }
 
-    public static void bidFarewell() {
-        System.out.println("Goodbye!!! Hope to see you again soon!!!");
+    private static void awaitCommand() {
+        line = in.nextLine();
+        if (!Farewell.isKeyword(line)) {
+            Reply.sendReply(line);
+            awaitCommand();
+        } else {
+            Farewell.reply();
+        }
     }
 }
 
