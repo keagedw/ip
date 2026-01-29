@@ -18,8 +18,7 @@ public class Nikolaus {
 
     public static void introduce() {
         Logo.display();
-        Reply.sendReply("Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!", 1);
-        Reply.sendReply("How may I be of assistance today???", 2);
+        Reply.sendReply("Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\nHow may I be of assistance today???");
     }
 }
 

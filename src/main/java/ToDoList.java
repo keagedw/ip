@@ -34,14 +34,22 @@ public class ToDoList {
     }
 
     public void mark(int index) {
-        list[index - 1].setComplete(true);
-        Reply.sendReply("Sure thing! I'll put this task as MARKED!", 1);
-        Reply.sendReply("[X] " + list[index - 1].getName(), 2);
+        if (list[index - 1].isComplete()) {
+            Reply.sendReply("Task already marked complete!");
+        } else {
+            list[index - 1].setComplete(true);
+            Reply.sendReply("Sure thing! I'll put this task as MARKED!", 1);
+            Reply.sendReply("[X] " + list[index - 1].getName(), 2);
+        }
     }
 
     public void unmark(int index) {
-        list[index - 1].setComplete(false);
-        Reply.sendReply("OK! The task has been UNMARKED!", 1);
-        Reply.sendReply("[ ] " + list[index - 1].getName(), 2);
+        if (!list[index - 1].isComplete()) {
+            Reply.sendReply("Task already marked incomplete!");
+        } else {
+            list[index - 1].setComplete(false);
+            Reply.sendReply("OK! The task has been UNMARKED!", 1);
+            Reply.sendReply("[ ] " + list[index - 1].getName(), 2);
+        }
     }
 }
