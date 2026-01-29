@@ -1,3 +1,5 @@
+package nikolaus.ui;
+
 public class Reply {
     public static void sendReply(String message) {
         sendReply(message, 0);
@@ -5,7 +7,7 @@ public class Reply {
 
     // mode 0: top and bottom border, mode 1: only top, mode 2: only bottom
     public static void sendReply(String message, int mode) {
-        if (mode < 0 |  mode > 2) {
+        if (mode < 0 | mode > 2) {
             throw new ArithmeticException("Not a legal mode. Please pick a mode between 0 and 2");
         }
         if (mode == 0 | mode == 1) {

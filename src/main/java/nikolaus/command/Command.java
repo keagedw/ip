@@ -1,3 +1,5 @@
+package nikolaus.command;
+
 public class Command {
     private final String[] keywords;
 
@@ -14,8 +16,12 @@ public class Command {
         }
         return false;
     }
+
     public boolean willExit() {
         return false;
     }
-    public void execute() {};
+
+    public void execute() {
+    }
+
 }

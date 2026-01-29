@@ -1,13 +1,26 @@
-import java.util.Objects;
+package nikolaus.commandhandler;
+
 import java.util.Scanner;
 
+import nikolaus.command.AddCommand;
+import nikolaus.command.Command;
+import nikolaus.command.EchoCommand;
+import nikolaus.command.FarewellCommand;
+import nikolaus.command.ListCommand;
+import nikolaus.command.MarkCommand;
+import nikolaus.command.UnmarkCommand;
+
+import nikolaus.todolist.ToDoList;
+
+import nikolaus.ui.Reply;
+
 public class CommandHandler {
-    private ToDoList toDoList;
+    private final ToDoList toDoList;
     private String commandWord;
     private String[] arguments;
-    private Scanner scanner;
+    private final Scanner scanner;
     private String line;
-    private Command[] commands = new Command[5];
+    private final Command[] commands = new Command[5];
 
     public CommandHandler(ToDoList toDoList, Scanner scanner) {
         this.toDoList = toDoList;

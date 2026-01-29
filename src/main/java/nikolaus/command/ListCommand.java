@@ -1,7 +1,9 @@
-import java.util.Scanner;
+package nikolaus.command;
 
-public class ListCommand extends Command{
-    private ToDoList listToDoList;
+import nikolaus.todolist.ToDoList;
+
+public class ListCommand extends Command {
+    private final ToDoList listToDoList;
 
     public ListCommand(ToDoList toDoList) {
         super(new String[]{"list"});

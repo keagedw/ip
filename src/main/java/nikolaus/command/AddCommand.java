@@ -1,8 +1,14 @@
+package nikolaus.command;
+
 import java.util.Scanner;
 
-public class AddCommand extends Command{
-    private ToDoList toDoList;
-    private Scanner scanner;
+import nikolaus.todolist.ToDoList;
+
+import nikolaus.ui.Reply;
+
+public class AddCommand extends Command {
+    private final ToDoList toDoList;
+    private final Scanner scanner;
 
     public AddCommand(ToDoList toDoList, Scanner scanner) {
         super(new String[]{"add"});

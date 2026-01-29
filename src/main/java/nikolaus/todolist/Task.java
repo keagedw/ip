@@ -1,3 +1,5 @@
+package nikolaus.todolist;
+
 public class Task {
     protected String name;
     protected boolean isComplete;

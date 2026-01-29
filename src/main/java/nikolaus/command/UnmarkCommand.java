@@ -1,4 +1,8 @@
-public class UnmarkCommand extends Command{
+package nikolaus.command;
+
+import nikolaus.todolist.ToDoList;
+
+public class UnmarkCommand extends Command {
     private int index;
     private ToDoList toDoList;
 

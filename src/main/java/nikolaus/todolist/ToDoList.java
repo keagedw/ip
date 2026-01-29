@@ -1,5 +1,9 @@
+package nikolaus.todolist;
+
+import nikolaus.ui.Reply;
+
 public class ToDoList {
-    private Task[] list;
+    private final Task[] list;
     private int index;
 
     public ToDoList() {
@@ -35,7 +39,7 @@ public class ToDoList {
 
     public void mark(int index) {
         if (list[index - 1].isComplete()) {
-            Reply.sendReply("Task already marked complete!");
+            Reply.sendReply("nikolaus.todolist.Task already marked complete!");
         } else {
             list[index - 1].setComplete(true);
             Reply.sendReply("Sure thing! I'll put this task as MARKED!", 1);
@@ -45,7 +49,7 @@ public class ToDoList {
 
     public void unmark(int index) {
         if (!list[index - 1].isComplete()) {
-            Reply.sendReply("Task already marked incomplete!");
+            Reply.sendReply("nikolaus.todolist.Task already marked incomplete!");
         } else {
             list[index - 1].setComplete(false);
             Reply.sendReply("OK! The task has been UNMARKED!", 1);

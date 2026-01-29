@@ -1,4 +1,15 @@
+package nikolaus;
+
 import java.util.Scanner;
+
+import nikolaus.command.Command;
+
+import nikolaus.commandhandler.CommandHandler;
+
+import nikolaus.todolist.ToDoList;
+
+import nikolaus.ui.Logo;
+import nikolaus.ui.Reply;
 
 public class Nikolaus {
     // setup for command replies
@@ -18,7 +29,7 @@ public class Nikolaus {
 
     public static void introduce() {
         Logo.display();
-        Reply.sendReply("Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\nHow may I be of assistance today???");
+        Reply.sendReply("Greetings Adventurer!!! I'm nikolaus.Nikolaus, your friendly personal guide!!!\nHow may I be of assistance today???");
     }
 }
 
