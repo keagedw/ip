@@ -1,23 +1,26 @@
 package nikolaus.todolist;
 
 public class Task {
-    protected String name;
-    protected boolean isComplete;
+    private String description;
+    private boolean isComplete;
 
-    public Task(String name) {
-        this.name = name;
-        this.isComplete = false;
+    /**
+     * Task to be added to To Do List
+     */
+    public Task(String description) {
+        this.description = description;
+        isComplete = false;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
     public boolean isComplete() {
         return isComplete;
     }
 
-    public void setComplete(boolean complete) {
-        isComplete = complete;
+    public void setComplete(boolean isComplete) {
+        this.isComplete = isComplete;
     }
 }

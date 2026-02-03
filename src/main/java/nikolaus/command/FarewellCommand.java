@@ -2,9 +2,16 @@ package nikolaus.command;
 
 import nikolaus.ui.Reply;
 
+/**
+ * Ends program wih farewell
+ */
 public class FarewellCommand extends Command {
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * "bye" is triggering keyword
+     */
     public FarewellCommand() {
         super(new String[]{"bye"});
     }

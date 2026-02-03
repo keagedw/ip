@@ -1,59 +1,96 @@
 package nikolaus.todolist;
 
+import java.util.Scanner;
+
 import nikolaus.ui.Reply;
+import nikolaus.ui.ReplyMode;
 
 public class ToDoList {
-    private final Task[] list;
-    private int index;
+    private static final int LIST_LENGTH = 100;
 
-    public ToDoList() {
-        list = new Task[100];
-        index = 0;
+    private Task[] list;
+    private int taskCount;
+
+    private Scanner scanner;
+
+    /**
+     * Constructs empty To Do List
+     */
+    public ToDoList(Scanner scanner) {
+        list = new Task[LIST_LENGTH];
+        taskCount = 0;
+        this.scanner = scanner;
     }
 
-    public int getIndex() {
-        return index;
+    public boolean isEmpty() {
+        return taskCount == 0;
     }
 
-    public void add(String task) {
-        if (index > 99) {
+    public int getTaskCount() {
+        return taskCount;
+    }
+
+    /**
+     * Adds task to To Do List
+     */
+    public void add() {
+        Reply.sendReply("What would you like to add?");
+        String task = scanner.nextLine();
+        if (taskCount >= LIST_LENGTH) {
             Reply.sendReply("To Do List is full");
         } else {
-            list[index] = new Task(task);
-            index++;
+            list[taskCount] = new Task(task);
+            taskCount++;
+            Reply.sendReply("Added " + task);
         }
     }
 
+    /**
+     * Lists out items in To Do List
+     */
     public void listOut() {
-        if (index == 0) {
+        if (isEmpty()) {
             Reply.sendReply("To Do List is empty");
             return;
         }
-        Reply.sendReply("To Do List:", 1);
-        for (int i = 0; i < index; i++) {
+
+        Reply.sendReply("To Do List:", ReplyMode.TOP);
+        for (int i = 0; i < taskCount; i++) {
             String tick = list[i].isComplete() ? "X" : " ";
-            System.out.println((i + 1) + ": [" + tick + "] " + list[i].getName());
+            System.out.println((i + 1) + ": [" + tick + "] " + list[i].getDescription());
         }
         Reply.createBorder();
     }
 
+    /**
+     * Marks task as complete
+     *
+     * @param index Index of task in To Do List
+     */
     public void mark(int index) {
         if (list[index - 1].isComplete()) {
-            Reply.sendReply("nikolaus.todolist.Task already marked complete!");
+            Reply.sendReply("Task already marked complete!");
         } else {
             list[index - 1].setComplete(true);
-            Reply.sendReply("Sure thing! I'll put this task as MARKED!", 1);
-            Reply.sendReply("[X] " + list[index - 1].getName(), 2);
+            Reply.sendReply("Sure thing! I'll put this task as MARKED!\n"
+                                    + "[X] " + list[index - 1].getDescription(),
+                            ReplyMode.BOTH);
         }
     }
 
+    /**
+     * Marks task as incomplete
+     *
+     * @param index Index of task in To Do List
+     */
     public void unmark(int index) {
         if (!list[index - 1].isComplete()) {
-            Reply.sendReply("nikolaus.todolist.Task already marked incomplete!");
+            Reply.sendReply("Task already marked incomplete!");
         } else {
             list[index - 1].setComplete(false);
-            Reply.sendReply("OK! The task has been UNMARKED!", 1);
-            Reply.sendReply("[ ] " + list[index - 1].getName(), 2);
+            Reply.sendReply("OK! The task has been UNMARKED!\n"
+                                    + "[ ] " + list[index - 1].getDescription(),
+                            ReplyMode.BOTH);
         }
     }
 }

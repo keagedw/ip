@@ -1,26 +1,35 @@
 package nikolaus.ui;
 
 public class Reply {
+    private static final int DEFAULT_LENGTH = 200;
+
     public static void sendReply(String message) {
-        sendReply(message, 0);
+        sendReply(message, ReplyMode.BOTH);
     }
 
-    // mode 0: top and bottom border, mode 1: only top, mode 2: only bottom
-    public static void sendReply(String message, int mode) {
-        if (mode < 0 | mode > 2) {
-            throw new ArithmeticException("Not a legal mode. Please pick a mode between 0 and 2");
-        }
-        if (mode == 0 | mode == 1) {
+    /**
+     * Sends formatted reply
+     *
+     * @param message Nikolaus' reply
+     * @param mode UPPER: only top border, LOWER: only bottom border, BOTH: both top and bottom border
+     */
+    public static void sendReply(String message, ReplyMode mode) {
+        // create top border
+        if (mode != ReplyMode.BOTTOM) {
             createBorder();
         }
+
+        // print message
         System.out.println(message);
-        if (mode == 0 | mode == 2) {
+
+        // print bottom border
+        if (mode != ReplyMode.TOP) {
             createBorder();
         }
     }
 
     public static void createBorder() {
-        createBorder(200);
+        createBorder(DEFAULT_LENGTH);
     }
 
     public static void createBorder(int length) {

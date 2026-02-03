@@ -1,26 +1,26 @@
 package nikolaus.command;
 
-import java.util.Scanner;
-
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.ui.Reply;
+/**
+ * Used to add a task to ToDoList
+ */
+public class AddCommand extends ToDoListCommand {
 
-public class AddCommand extends Command {
-    private final ToDoList toDoList;
-    private final Scanner scanner;
-
-    public AddCommand(ToDoList toDoList, Scanner scanner) {
-        super(new String[]{"add"});
-        this.toDoList = toDoList;
-        this.scanner = scanner;
+    /**
+     * {@inheritDoc}
+     *
+     * "add" is triggering keyword
+     */
+    public AddCommand(ToDoList toDoList) {
+        super(new String[]{"add"}, toDoList);
     }
 
+    /**
+     * Adds task to ToDoList
+     */
     @Override
     public void execute() {
-        Reply.sendReply("What would you like to add?");
-        String task = scanner.nextLine();
-        toDoList.add(task);
-        Reply.sendReply("Added " + task);
+        toDoList.add();
     }
 }
