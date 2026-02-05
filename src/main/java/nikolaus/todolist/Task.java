@@ -1,8 +1,8 @@
 package nikolaus.todolist;
 
 public class Task {
-    private String description;
-    private boolean isComplete;
+    protected String description;
+    protected boolean isComplete;
 
     /**
      * Task to be added to To Do List
@@ -22,5 +22,15 @@ public class Task {
 
     public void setComplete(boolean isComplete) {
         this.isComplete = isComplete;
+    }
+
+    public String getStatusIcon() {
+        // mark done task with X
+        return (isComplete ? "X" : " ");
+    }
+
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
     }
 }

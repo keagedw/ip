@@ -34,14 +34,52 @@ public class ToDoList {
      * Adds task to To Do List
      */
     public void add() {
-        Reply.sendReply("What would you like to add?");
-        String task = scanner.nextLine();
+        // checks if full
         if (taskCount >= LIST_LENGTH) {
             Reply.sendReply("To Do List is full");
-        } else {
-            list[taskCount] = new Task(task);
+            return;
+        }
+
+        // asks input from user
+        Reply.sendReply("What would you like to add?");
+        String task = scanner.nextLine();
+
+        // prepares input string for parsing
+        int firstSpaceIndex = task.indexOf(' ');
+
+        // initialise new Task instance
+        Task newTask;
+
+        // parses between todo, deadline, or event
+        // TODO: Encapsulate into individual ToDoListCommand subclasses and integrate with CommandHandler
+        switch (task.substring(0, firstSpaceIndex)) {
+        case "todo":
+            newTask = new ToDo(task.replace("todo ", ""));
+            list[taskCount] = newTask;
             taskCount++;
-            Reply.sendReply("Added " + task);
+            Reply.sendReply("Added " + newTask.getDescription());
+            break;
+        case "deadline":
+            int byIndex = task.indexOf('/');
+            newTask = new Deadline(task.substring(0, byIndex - 1).replace("deadline ", ""),
+                    task.substring(byIndex + 4));
+            list[taskCount] = newTask;
+            taskCount++;
+            Reply.sendReply("Added " + newTask.getDescription());
+            break;
+        case "event":
+            int fromIndex = task.indexOf('/');
+            int toIndex = task.indexOf('/', fromIndex + 1);
+            newTask = new Event(task.substring(0, fromIndex - 1).replace("event ", ""),
+                    task.substring(fromIndex + 6, toIndex - 1),
+                    task.substring(toIndex + 4));
+            list[taskCount] = newTask;
+            taskCount++;
+            Reply.sendReply("Added " + newTask.getDescription());
+            break;
+        default:
+            Reply.sendReply("Not able to add Task....");
+            break;
         }
     }
 
@@ -56,8 +94,7 @@ public class ToDoList {
 
         Reply.sendReply("To Do List:", ReplyMode.TOP);
         for (int i = 0; i < taskCount; i++) {
-            String tick = list[i].isComplete() ? "X" : " ";
-            System.out.println((i + 1) + ": [" + tick + "] " + list[i].getDescription());
+            System.out.println((i + 1) + ": " + list[i].toString());
         }
         Reply.createBorder();
     }
@@ -73,8 +110,8 @@ public class ToDoList {
         } else {
             list[index - 1].setComplete(true);
             Reply.sendReply("Sure thing! I'll put this task as MARKED!\n"
-                                    + "[X] " + list[index - 1].getDescription(),
-                            ReplyMode.BOTH);
+                    + list[index - 1].toString(),
+                    ReplyMode.BOTH);
         }
     }
 
@@ -89,8 +126,8 @@ public class ToDoList {
         } else {
             list[index - 1].setComplete(false);
             Reply.sendReply("OK! The task has been UNMARKED!\n"
-                                    + "[ ] " + list[index - 1].getDescription(),
-                            ReplyMode.BOTH);
+                    + list[index - 1].toString(),
+                    ReplyMode.BOTH);
         }
     }
 }
