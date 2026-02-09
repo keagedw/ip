@@ -23,7 +23,7 @@ public class Nikolaus {
     static CommandHandler handler = new CommandHandler(list);
 
     // signal to exit bot
-    static boolean exitFlag = false;
+    static boolean willExit = false;
 
     /**
      * Executes Nikolaus
@@ -32,15 +32,12 @@ public class Nikolaus {
         introduce();
 
         // keeps looping until command signals to stop
-        while (!exitFlag) {
+        while (!willExit) {
             // gets input from user
             String inputCommand = in.nextLine();
 
             // handler processes command; returns command run
-            Command command = handler.execute(inputCommand);
-
-            // update signal to exit Nikolaus
-            exitFlag = handler.shouldExit(command);
+            willExit = handler.execute(inputCommand);
         }
     }
 

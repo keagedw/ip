@@ -15,6 +15,14 @@ public class EchoCommand extends Command {
         super(args);
     }
 
+    /**
+     * Creates an instance of EchoCommand
+     *
+     * Summoned from CommandFactory
+     *
+     * @param args arguments fed
+     * @return command created
+     */
     public static Command parse(String args) {
         return new EchoCommand(args);
     }

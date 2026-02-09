@@ -14,6 +14,14 @@ public class Command {
         this.args = args;
     }
 
+    /**
+     * Creates an instance of Command
+     *
+     * Summoned from CommandFactory
+     *
+     * @param args arguments fed
+     * @return command created
+     */
     public static Command parse(String args){
         return new Command(args);
     }

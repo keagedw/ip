@@ -25,9 +25,12 @@ import nikolaus.ui.Reply;
 public class CommandHandler {
     protected ToDoList toDoList;
 
-    // command list
+    // list of all commands
     private HashMap<String, CommandFactory> commandRegisters = new HashMap<String, CommandFactory>();
 
+    /**
+     * Allows commands to be built
+     */
     @FunctionalInterface
     protected interface CommandFactory{
         Command create(String args) throws InputMismatchException;
@@ -44,25 +47,32 @@ public class CommandHandler {
     }
 
     /**
-     * Runs chosen command
+     * Runs correct commands
+     *
+     * Parses input into commands and arguments
+     * Retrieves command from registry
+     * Executes command with correct arguments
      *
      * @param input Total user input
-     * @return Command run
+     * @return exit flag boolean
      */
-    public Command execute(String input) {
-        // Split input into command and
+    public boolean execute(String input) {
+        // Split input into command and args
         String[] inputArray = input.trim().split(" ", 2);
         String commandTrigger = inputArray[0];
         String args = (inputArray.length == 1) ? "" : inputArray[1];
 
+        // get correct CommandFactory
         CommandFactory factory = commandRegisters.get(commandTrigger);
 
+        // handles no command match
         if (factory == null) {
             Command command = new EchoCommand(input);
             command.execute();
-            return command;
+            return command.willExit();
         }
 
+        // ensures correct arguments added
         Command command;
         try {
             command = factory.create(args);
@@ -71,7 +81,7 @@ public class CommandHandler {
             command = new EchoCommand(input);
         }
         command.execute();
-        return command;
+        return command.willExit();
     }
 
     /**
@@ -84,6 +94,9 @@ public class CommandHandler {
         return command.willExit();
     }
 
+    /**
+     * Adds all commands to registry with correct CommandFactory
+     */
     private void registerCommands() {
         commandRegisters.put("bye", args -> FarewellCommand.parse(args));
         commandRegisters.put("list", args -> ListCommand.parse(args, toDoList));

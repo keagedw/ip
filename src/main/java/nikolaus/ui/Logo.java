@@ -1,7 +1,7 @@
 package nikolaus.ui;
 
 public class Logo {
-    private static final String logo = "                                   ::::    :::   :::::::::::   :::   "
+    private static final String LOGO = "                                   ::::    :::   :::::::::::   :::   "
             + " :::    ::::::::    :::             :::       :::    :::     :::::::: \n"
             + "                                  :+:+:   :+:       :+:       :+:   :+:    :+:    :+:   :+:     "
             + "      :+: :+:     :+:    :+:    :+:    :+: \n"
@@ -17,6 +17,6 @@ public class Logo {
             + "##     ###    ########      ########         ";
 
     public static void display() {
-        Reply.sendReply(logo, ReplyMode.BOTH);
+        Reply.sendReply(LOGO, ReplyMode.BOTH);
     }
 }

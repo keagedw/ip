@@ -22,6 +22,18 @@ public class UnmarkCommand extends ToDoListCommand {
         this.index = index;
     }
 
+    /**
+     * Creates an instance of UnmarkCommand
+     *
+     * Summoned from CommandFactory
+     *
+     * handles errors and wrong inputs
+     * parses index of task to act on
+     *
+     * @param args arguments fed
+     * @param toDoList To Do List to act on
+     * @return command created
+     */
     public static Command parse(String args, ToDoList toDoList) {
         if (args.isEmpty()) {
             throw new InputMismatchException("Index must be provided");

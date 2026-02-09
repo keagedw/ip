@@ -18,6 +18,15 @@ public class ToDoListCommand extends Command{
         this.toDoList = toDoList;
     }
 
+    /**
+     * Creates an instance of ToDoListCommand
+     *
+     * Summoned from CommandFactory
+     *
+     * @param args arguments fed
+     * @param toDoList To Do List to act on
+     * @return command created
+     */
     public static Command parse(String args, ToDoList toDoList) {
         return new ToDoListCommand(args, toDoList);
     }

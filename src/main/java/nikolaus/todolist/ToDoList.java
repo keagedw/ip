@@ -11,15 +11,12 @@ public class ToDoList {
     private Task[] list;
     private int taskCount;
 
-    private Scanner scanner;
-
     /**
      * Constructs empty To Do List
      */
     public ToDoList(Scanner scanner) {
         list = new Task[LIST_LENGTH];
         taskCount = 0;
-        this.scanner = scanner;
     }
 
     public boolean isEmpty() {
@@ -30,6 +27,9 @@ public class ToDoList {
         return taskCount;
     }
 
+    /**
+     * Adds a Task to list
+     */
     public void addTask(String description) {
         // checks if full
         if (taskCount >= LIST_LENGTH) {
@@ -42,6 +42,9 @@ public class ToDoList {
         taskCount++;
     }
 
+    /**
+     * Adds a ToDo to list
+     */
     public void addToDo(String description) {
         // checks if full
         if (taskCount >= LIST_LENGTH) {
@@ -54,6 +57,9 @@ public class ToDoList {
         taskCount++;
     }
 
+    /**
+     * Adds a Deadline to list
+     */
     public void addDeadline(String description, String by) {
         // checks if full
         if (taskCount >= LIST_LENGTH) {
@@ -66,6 +72,9 @@ public class ToDoList {
         taskCount++;
     }
 
+    /**
+     * Adds an Event to list
+     */
     public void addEvent(String description, String from, String to) {
         // checks if full
         if (taskCount >= LIST_LENGTH) {

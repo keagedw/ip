@@ -18,6 +18,14 @@ public class FarewellCommand extends Command {
         super(args);
     }
 
+    /**
+     * Creates an instance of FarewellCommand
+     *
+     * Summoned from CommandFactory
+     *
+     * @param args arguments fed
+     * @return command created
+     */
     public static Command parse(String args) {
         return new FarewellCommand(args);
     }
