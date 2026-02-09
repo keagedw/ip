@@ -13,8 +13,12 @@ public class ToDoListCommand extends Command{
      *
      * @param toDoList ToDoList for which the command acts on
      */
-    public ToDoListCommand(String[] keywords, ToDoList toDoList) {
-        super(keywords);
+    public ToDoListCommand(String args, ToDoList toDoList) {
+        super(args);
         this.toDoList = toDoList;
+    }
+
+    public static Command parse(String args, ToDoList toDoList) {
+        return new ToDoListCommand(args, toDoList);
     }
 }

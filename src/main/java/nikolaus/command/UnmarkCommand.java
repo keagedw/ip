@@ -1,5 +1,7 @@
 package nikolaus.command;
 
+import java.util.InputMismatchException;
+
 import nikolaus.todolist.ToDoList;
 
 /**
@@ -7,7 +9,7 @@ import nikolaus.todolist.ToDoList;
  */
 public class UnmarkCommand extends ToDoListCommand {
     // index of task in list to mark, default out of list
-    private int index = -1;
+    private int index;
 
     /**
      * {@inheritDoc}
@@ -15,19 +17,24 @@ public class UnmarkCommand extends ToDoListCommand {
      * Instances without index used for trigger keyword check
      * "unmark" is triggering keyword
      */
-    public UnmarkCommand(ToDoList toDoList) {
-        super(new String[]{"unmark"}, toDoList);
+    public UnmarkCommand(String args, ToDoList toDoList, int index) {
+        super(args, toDoList);
+        this.index = index;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * Instances with index used to unmark tasks in lists
-     * "unmark" is triggering keyword
-     */
-    public UnmarkCommand(int index, ToDoList toDoList) {
-        super(new String[]{"unmark"}, toDoList);
-        this.index = index;
+    public static Command parse(String args, ToDoList toDoList) {
+        if (args.isEmpty()) {
+            throw new InputMismatchException("Index must be provided");
+        }
+
+        int argsIndex;
+        try {
+            argsIndex = Integer.parseInt(args);
+        } catch (NumberFormatException noNumberError) {
+            throw new InputMismatchException("Index must be an integer");
+        }
+
+        return new UnmarkCommand(args, toDoList, argsIndex);
     }
 
     /**

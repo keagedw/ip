@@ -6,16 +6,17 @@ import nikolaus.ui.Reply;
  * Repeats back user input
  */
 public class EchoCommand extends Command {
-    private String echo;
-
     /**
      * No triggering keyword
      *
-     * @param echo last user input
+     * @param args last user input
      */
-    public EchoCommand(String echo) {
-        super(new String[]{});
-        this.echo = echo;
+    public EchoCommand(String args) {
+        super(args);
+    }
+
+    public static Command parse(String args) {
+        return new EchoCommand(args);
     }
 
     /**
@@ -23,6 +24,6 @@ public class EchoCommand extends Command {
      */
     @Override
     public void execute() {
-        Reply.sendReply(echo);
+        Reply.sendReply(args);
     }
 }

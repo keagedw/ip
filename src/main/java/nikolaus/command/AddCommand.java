@@ -12,8 +12,8 @@ public class AddCommand extends ToDoListCommand {
      *
      * "add" is triggering keyword
      */
-    public AddCommand(ToDoList toDoList) {
-        super(new String[]{"add"}, toDoList);
+    public AddCommand(String args, ToDoList toDoList) {
+        super(args, toDoList);
     }
 
     /**

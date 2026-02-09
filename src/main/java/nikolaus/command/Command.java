@@ -4,31 +4,18 @@ package nikolaus.command;
  * Executes action when triggered by command from user
  */
 public class Command {
-    // Array of all triggering keywords
-    private final String[] keywords;
-
+    protected String args;
     /**
      * Initialises a command triggered by keywords
      *
-     * @param keywords List of trigger keywords
+     * @param args arguments to be parsed
      */
-    public Command(String[] keywords) {
-        this.keywords = keywords;
+    public Command(String args) {
+        this.args = args;
     }
 
-    /**
-     * Checks if input from user triggers command
-     *
-     * @param input Single word input from command handler
-     * @return Signals to command handler if input triggers command
-     */
-    public boolean isTriggeredBy(String input) {
-        for (String keyword : keywords) {
-            if (input.equals(keyword)) {
-                return true;
-            }
-        }
-        return false;
+    public static Command parse(String args){
+        return new Command(args);
     }
 
     /**

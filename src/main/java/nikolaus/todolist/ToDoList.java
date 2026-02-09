@@ -105,7 +105,9 @@ public class ToDoList {
      * @param index Index of task in To Do List
      */
     public void mark(int index) {
-        if (list[index - 1].isComplete()) {
+        if (index > taskCount || index < 1) {
+            Reply.sendReply("Not a valid index");
+        } else if (list[index - 1].isComplete()) {
             Reply.sendReply("Task already marked complete!");
         } else {
             list[index - 1].setComplete(true);
@@ -121,7 +123,9 @@ public class ToDoList {
      * @param index Index of task in To Do List
      */
     public void unmark(int index) {
-        if (!list[index - 1].isComplete()) {
+        if (index > taskCount || index < 1) {
+            Reply.sendReply("Not a valid index");
+        } else if (!list[index - 1].isComplete()) {
             Reply.sendReply("Task already marked incomplete!");
         } else {
             list[index - 1].setComplete(false);

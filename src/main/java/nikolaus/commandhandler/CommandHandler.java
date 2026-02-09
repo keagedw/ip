@@ -1,5 +1,10 @@
 package nikolaus.commandhandler;
 
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.List;
+
 import nikolaus.command.AddCommand;
 import nikolaus.command.Command;
 import nikolaus.command.EchoCommand;
@@ -19,12 +24,13 @@ import nikolaus.ui.Reply;
 public class CommandHandler {
     private ToDoList toDoList;
 
-    // parsed command and arguments from input
-    private String commandWord = "";
-    private String[] arguments;
-
     // command list
-    private Command[] commands = new Command[5];
+    private HashMap<String, CommandFactory> commandRegisters = new HashMap<String, CommandFactory>();
+
+    @FunctionalInterface
+    private interface CommandFactory{
+        Command create(String args) throws InputMismatchException;
+    }
 
     /**
      * Lists all known commands to iterate through
@@ -33,11 +39,7 @@ public class CommandHandler {
      */
     public CommandHandler(ToDoList toDoList) {
         this.toDoList = toDoList;
-        commands[0] = new AddCommand(toDoList);
-        commands[1] = new ListCommand(toDoList);
-        commands[2] = new FarewellCommand();
-        commands[3] = new MarkCommand(toDoList);
-        commands[4] = new UnmarkCommand(toDoList);
+        registerCommands();
     }
 
     /**
@@ -47,9 +49,25 @@ public class CommandHandler {
      * @return Command run
      */
     public Command execute(String input) {
-        Command command = parse(input);
-        if (command instanceof MarkCommand || command instanceof UnmarkCommand) {
-            command = parseMarkUnmark(command, input);
+        // Split input into command and
+        String[] inputArray = input.trim().split(" ", 2);
+        String commandTrigger = inputArray[0];
+        String args = (inputArray.length == 1) ? "" : inputArray[1];
+
+        CommandFactory factory = commandRegisters.get(commandTrigger);
+
+        if (factory == null) {
+            Command command = new EchoCommand(input);
+            command.execute();
+            return command;
+        }
+
+        Command command;
+        try {
+            command = factory.create(args);
+        } catch (InputMismatchException error) {
+            Reply.sendReply(error.getMessage());
+            command = new EchoCommand(input);
         }
         command.execute();
         return command;
@@ -65,80 +83,10 @@ public class CommandHandler {
         return command.willExit();
     }
 
-    /**
-     * Parses user input to comman and arguments
-     *
-     * TO BE REPLACED BY CLASS
-     *
-     * @param input User input from scanner
-     * @return Command that is chosen
-     */
-    private Command parse(String input) {
-        // Split into array of words
-        String[] inputArray = input.trim().split(" ");
-
-        // Check if there are words
-        if (inputArray[0].isEmpty()) {
-            return new EchoCommand(input);
-        } else {
-            commandWord = inputArray[0];
-        }
-
-        // check if there are arguments
-        if (inputArray.length > 1) {
-            arguments = new String[inputArray.length - 1];
-            System.arraycopy(inputArray, 1, arguments, 0, inputArray.length - 1);
-        } else {
-            arguments = new String[]{null};
-        }
-
-        // check for comman word
-        for (Command command : commands) {
-            if (inputArray[0].isEmpty()) {
-                break;
-            }
-            if (command.isTriggeredBy(inputArray[0])) {
-                return command;
-            }
-        }
-        return new EchoCommand(input);
-    }
-
-    /**
-     * Processes parsed result further for Mark and Unmark commands
-     *
-     * TO BE REPLACED BY CLASS
-     *
-     * @param inputCommand Command to be parsed further
-     * @param input Total user input
-     * @return Mark/Unmark command chosen
-     */
-    private Command parseMarkUnmark(Command inputCommand, String input) {
-        int index;
-        if (inputCommand instanceof MarkCommand) {
-            try {
-                index = Integer.parseInt(arguments[0]);
-            } catch (NumberFormatException e) {
-                Reply.sendReply("mark command not sent with index");
-                return new EchoCommand(input);
-            }
-            if (index > toDoList.getTaskCount() || index < 0) {
-                Reply.sendReply("Index not in list");
-                return new EchoCommand(input);
-            }
-            return new MarkCommand(index, toDoList);
-        } else {
-            try {
-                index = Integer.parseInt(arguments[0]);
-            } catch (NumberFormatException e) {
-                Reply.sendReply("unmark command not sent with index");
-                return new EchoCommand(input);
-            }
-            if (index > toDoList.getTaskCount() || index < 0) {
-                Reply.sendReply("Index not in list");
-                return new EchoCommand(input);
-            }
-            return new UnmarkCommand(index, toDoList);
-        }
+    private void registerCommands() {
+        commandRegisters.put("bye", args -> FarewellCommand.parse(args));
+        commandRegisters.put("list", args -> ListCommand.parse(args, toDoList));
+        commandRegisters.put("mark", args -> MarkCommand.parse(args, toDoList));
+        commandRegisters.put("unmark", args -> UnmarkCommand.parse(args, toDoList));
     }
 }
