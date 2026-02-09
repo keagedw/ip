@@ -2,26 +2,23 @@ package nikolaus.command;
 
 import nikolaus.todolist.ToDoList;
 
-/**
- * Used to add a task to ToDoList
- */
-public class TaskCommand extends ToDoListCommand {
+public class ToDoCommand extends TaskCommand {
     /**
      * {@inheritDoc}
      */
-    public TaskCommand(String args, ToDoList toDoList) {
+    public ToDoCommand(String args, ToDoList toDoList) {
         super(args, toDoList);
     }
 
     public static Command parse(String args, ToDoList toDoList) {
-        return new TaskCommand(args, toDoList);
+        return new ToDoCommand(args, toDoList);
     }
 
     /**
-     * Adds task to ToDoList
+     * Adds todo to ToDoList
      */
     @Override
     public void execute() {
-        toDoList.addTask(args);
+        toDoList.addToDo(args);
     }
 }

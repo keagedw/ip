@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 
 import nikolaus.command.Command;
+import nikolaus.command.DeadlineCommand;
 import nikolaus.command.EchoCommand;
+import nikolaus.command.EventCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
 import nikolaus.command.MarkCommand;
 import nikolaus.command.TaskCommand;
+import nikolaus.command.ToDoCommand;
 import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.ToDoList;
@@ -20,13 +23,13 @@ import nikolaus.ui.Reply;
  * Triggers appropriate trigger
  */
 public class CommandHandler {
-    private ToDoList toDoList;
+    protected ToDoList toDoList;
 
     // command list
     private HashMap<String, CommandFactory> commandRegisters = new HashMap<String, CommandFactory>();
 
     @FunctionalInterface
-    private interface CommandFactory{
+    protected interface CommandFactory{
         Command create(String args) throws InputMismatchException;
     }
 
@@ -86,6 +89,8 @@ public class CommandHandler {
         commandRegisters.put("list", args -> ListCommand.parse(args, toDoList));
         commandRegisters.put("mark", args -> MarkCommand.parse(args, toDoList));
         commandRegisters.put("unmark", args -> UnmarkCommand.parse(args, toDoList));
-        commandRegisters.put("task", args -> TaskCommand.parse(args, toDoList));
+        commandRegisters.put("todo", args -> ToDoCommand.parse(args, toDoList));
+        commandRegisters.put("deadline", args -> DeadlineCommand.parse(args, toDoList));
+        commandRegisters.put("event", args -> EventCommand.parse(args, toDoList));
     }
 }
