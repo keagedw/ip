@@ -5,15 +5,19 @@ import nikolaus.todolist.ToDoList;
 /**
  * Used to add a task to ToDoList
  */
-public class AddCommand extends ToDoListCommand {
+public class TaskCommand extends ToDoListCommand {
 
     /**
      * {@inheritDoc}
      *
      * "add" is triggering keyword
      */
-    public AddCommand(String args, ToDoList toDoList) {
+    public TaskCommand(String args, ToDoList toDoList) {
         super(args, toDoList);
+    }
+
+    public static Command parse(String args, ToDoList toDoList) {
+        return new TaskCommand(args, toDoList);
     }
 
     /**
@@ -21,6 +25,6 @@ public class AddCommand extends ToDoListCommand {
      */
     @Override
     public void execute() {
-        toDoList.add();
+        toDoList.addTask(args);
     }
 }

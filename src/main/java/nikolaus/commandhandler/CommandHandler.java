@@ -1,16 +1,14 @@
 package nikolaus.commandhandler;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 
-import nikolaus.command.AddCommand;
 import nikolaus.command.Command;
 import nikolaus.command.EchoCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
 import nikolaus.command.MarkCommand;
+import nikolaus.command.TaskCommand;
 import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.ToDoList;
@@ -88,5 +86,6 @@ public class CommandHandler {
         commandRegisters.put("list", args -> ListCommand.parse(args, toDoList));
         commandRegisters.put("mark", args -> MarkCommand.parse(args, toDoList));
         commandRegisters.put("unmark", args -> UnmarkCommand.parse(args, toDoList));
+        commandRegisters.put("task", args -> TaskCommand.parse(args, toDoList));
     }
 }
