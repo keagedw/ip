@@ -1,7 +1,5 @@
 package nikolaus.command;
 
-import java.util.InputMismatchException;
-
 import nikolaus.ui.Reply;
 
 /**

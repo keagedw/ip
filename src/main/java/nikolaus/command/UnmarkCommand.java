@@ -1,7 +1,5 @@
 package nikolaus.command;
 
-import java.util.InputMismatchException;
-
 import nikolaus.todolist.ToDoList;
 
 import nikolaus.NikolausInputMismatchException;
@@ -10,7 +8,11 @@ import nikolaus.NikolausInputMismatchException;
  * Used to unmark a task in ToDoList
  */
 public class UnmarkCommand extends ToDoListCommand {
-    // index of task in list to mark, default out of list
+    // Messages
+    private static final String NO_INDEX_MESSAGE = "You must provide an index Traveler!";
+    private static final String NOT_A_NUMBER_MESSAGE = "Uhhhhhhh Traveler? I don't think that's a number...";
+
+    // Variables
     private int index;
 
     /**
@@ -36,19 +38,17 @@ public class UnmarkCommand extends ToDoListCommand {
      * @param toDoList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) {
+    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
-            throw new NikolausInputMismatchException("You must provide an index Traveler!");
+            throw new NikolausInputMismatchException(NO_INDEX_MESSAGE);
         }
 
-        int argsIndex;
         try {
-            argsIndex = Integer.parseInt(args);
+            int argsIndex = Integer.parseInt(args);
+            return new UnmarkCommand(args, toDoList, argsIndex);
         } catch (NumberFormatException noNumberError) {
-            throw new NikolausInputMismatchException("Uhhhhhhh Traveler? I don't think that's a number...");
+            throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
         }
-
-        return new UnmarkCommand(args, toDoList, argsIndex);
     }
 
     /**
