@@ -58,6 +58,11 @@ public class CommandHandler {
      * @return exit flag boolean
      */
     public boolean execute(String input) throws NikolausInputMismatchException {
+        // handles no input
+        if (input.isEmpty()) {
+            throw new NikolausInputMismatchException("Apologies, did you say something Traveler?");
+        }
+
         // Split input into command and args
         String[] inputArray = input.trim().split(" ", 2);
         String commandTrigger = inputArray[0];
@@ -68,7 +73,7 @@ public class CommandHandler {
 
         // handles no command match
         if (factory == null) {
-            throw new NikolausInputMismatchException("Pardon Traveler but I couldn't quite catch that...\n"
+            throw new NikolausInputMismatchException("Pardon Traveler but I don't quite understand...\n"
                     + "Could you repeat that???");
         }
 
