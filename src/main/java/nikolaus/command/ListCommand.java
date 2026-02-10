@@ -1,6 +1,5 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDo;
 import nikolaus.todolist.ToDoList;
 
 /**

@@ -5,7 +5,7 @@ import nikolaus.todolist.ToDoList;
 /**
  * ToDoList specific commands
  */
-public class ToDoListCommand extends Command{
+public class ToDoListCommand extends Command {
     protected ToDoList toDoList;
 
     /**

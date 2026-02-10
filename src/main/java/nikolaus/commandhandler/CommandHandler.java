@@ -1,28 +1,30 @@
 package nikolaus.commandhandler;
 
 import java.util.HashMap;
-import java.util.InputMismatchException;
 
 import nikolaus.command.Command;
 import nikolaus.command.DeadlineCommand;
-import nikolaus.command.EchoCommand;
 import nikolaus.command.EventCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
 import nikolaus.command.MarkCommand;
-import nikolaus.command.TaskCommand;
 import nikolaus.command.ToDoCommand;
 import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.ui.Reply;
+import nikolaus.NikolausInputMismatchException;
 
 /**
  * Processes and Handles user command inputs
  * Triggers appropriate trigger
  */
 public class CommandHandler {
+    // Messages
+    private static final String NO_INPUT_MESSAGE = "Apologies, did you say something Traveler?";
+    private static final String NO_COMMAND_MATCH_MESSAGE = "Pardon Traveler but I don't quite understand...\n"
+            + "Could you repeat that???";
+
     protected ToDoList toDoList;
 
     // list of all commands
@@ -33,7 +35,7 @@ public class CommandHandler {
      */
     @FunctionalInterface
     protected interface CommandFactory{
-        Command create(String args) throws InputMismatchException;
+        Command create(String args) throws NikolausInputMismatchException;
     }
 
     /**
@@ -56,7 +58,12 @@ public class CommandHandler {
      * @param input Total user input
      * @return exit flag boolean
      */
-    public boolean execute(String input) {
+    public boolean execute(String input) throws NikolausInputMismatchException {
+        // handles no input
+        if (input.isEmpty()) {
+            throw new NikolausInputMismatchException(NO_INPUT_MESSAGE);
+        }
+
         // Split input into command and args
         String[] inputArray = input.trim().split(" ", 2);
         String commandTrigger = inputArray[0];
@@ -67,19 +74,11 @@ public class CommandHandler {
 
         // handles no command match
         if (factory == null) {
-            Command command = new EchoCommand(input);
-            command.execute();
-            return command.willExit();
+            throw new NikolausInputMismatchException(NO_COMMAND_MATCH_MESSAGE);
         }
 
         // ensures correct arguments added
-        Command command;
-        try {
-            command = factory.create(args);
-        } catch (InputMismatchException error) {
-            Reply.sendReply(error.getMessage());
-            command = new EchoCommand(input);
-        }
+        Command command = factory.create(args);
         command.execute();
         return command.willExit();
     }

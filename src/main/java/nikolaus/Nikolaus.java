@@ -2,8 +2,6 @@ package nikolaus;
 
 import java.util.Scanner;
 
-import nikolaus.command.Command;
-
 import nikolaus.commandhandler.CommandHandler;
 
 import nikolaus.todolist.ToDoList;
@@ -15,6 +13,10 @@ import nikolaus.ui.Reply;
  * Nikolaus, a multi-functional personal bot to help keep track of tasks!
  */
 public class Nikolaus {
+    // Messages
+    private static final String GREETING = "Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\n"
+            + "How may I be of assistance today???";
+
     // setup for command replies
     static Scanner in = new Scanner(System.in);
     static ToDoList list = new ToDoList(in);
@@ -30,22 +32,27 @@ public class Nikolaus {
      */
     public static void main(String[] args) {
         introduce();
+        run();
+    }
 
+    private static void introduce() {
+        Logo.display();
+        Reply.sendReply(GREETING);
+    }
+
+    private static void run() {
         // keeps looping until command signals to stop
         while (!willExit) {
             // gets input from user
             String inputCommand = in.nextLine();
 
-            // handler processes command; returns command run
-            willExit = handler.execute(inputCommand);
+            try {
+                // handler processes command; returns command run
+                willExit = handler.execute(inputCommand);
+            } catch (NikolausInputMismatchException error) {
+                Reply.sendReply(error.getMessage());
+            }
         }
-    }
-
-    private static void introduce() {
-        Logo.display();
-
-        Reply.sendReply("Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\n"
-                + "How may I be of assistance today???");
     }
 }
 

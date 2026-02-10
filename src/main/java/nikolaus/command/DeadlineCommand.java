@@ -2,9 +2,21 @@ package nikolaus.command;
 
 import nikolaus.todolist.ToDoList;
 
-public class DeadlineCommand extends TaskCommand {
-    private static final int BY_LENGTH = 4;
+import nikolaus.NikolausInputMismatchException;
 
+public class DeadlineCommand extends TaskCommand {
+    // Messages
+    private static final String NO_BY_INDICATOR_MESSAGE = "Traveler, you need to add \"/by\" !!!";
+    private static final String NO_ARGS_MESSAGE = "Traveler! I can't put nothing????";
+
+    // Constants
+    private static final String BY_INDICATOR = "/by";
+    private static final int BY_LENGTH = 4;
+    private static final int ZERO_INDEX = 0;
+    private static final int INDEXOF_NOT_FOUND_CODE = -1;
+    private static final int ZERO_ONE_INDEX_CONVERSION = 1;
+
+    // Variables
     private String description, by;
 
     /**
@@ -27,7 +39,10 @@ public class DeadlineCommand extends TaskCommand {
      * @param toDoList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) {
+    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+        if (args.isEmpty()) {
+            throw new NikolausInputMismatchException(NO_ARGS_MESSAGE);
+        }
         return new DeadlineCommand(args, toDoList, parseDescription(args), parseBy(args));
     }
 
@@ -45,9 +60,14 @@ public class DeadlineCommand extends TaskCommand {
      * @param args arguments given
      * @return description
      */
-    private static String parseDescription(String args) {
-        int endIndex = args.indexOf("/by") - 1;
-        return args.substring(0, endIndex);
+    private static String parseDescription(String args) throws NikolausInputMismatchException {
+        int endIndex = args.indexOf(BY_INDICATOR);
+
+        if (endIndex == INDEXOF_NOT_FOUND_CODE) {
+            throw new NikolausInputMismatchException(NO_BY_INDICATOR_MESSAGE);
+        }
+
+        return args.substring(ZERO_INDEX, endIndex - ZERO_ONE_INDEX_CONVERSION);
     }
 
     /**
@@ -56,8 +76,13 @@ public class DeadlineCommand extends TaskCommand {
      * @param args arguments given
      * @return from String
      */
-    private static String parseBy(String args) {
-        int startIndex = args.indexOf("/by") + BY_LENGTH;
-        return args.substring(startIndex);
+    private static String parseBy(String args) throws NikolausInputMismatchException {
+        int startIndex = args.indexOf(BY_INDICATOR);
+
+        if (startIndex == INDEXOF_NOT_FOUND_CODE) {
+            throw new NikolausInputMismatchException(NO_BY_INDICATOR_MESSAGE);
+        }
+
+        return args.substring(startIndex + BY_LENGTH);
     }
 }

@@ -1,17 +1,20 @@
 package nikolaus.command;
 
-import java.text.ParseException;
 import java.util.InputMismatchException;
 
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.ui.Reply;
+import nikolaus.NikolausInputMismatchException;
 
 /**
  * Used to mark a task in ToDoList as complete
  */
 public class MarkCommand extends ToDoListCommand {
-    // index of task in list to mark, default out of list
+    // Messages
+    private static final String NO_INDEX_MESSAGE = "You must provide an index Traveler!";
+    private static final String NOT_A_NUMBER_MESSAGE = "Uhhhhhhh Traveler? I don't think that's a number...";
+
+    // Variables
     private int index;
 
     /**
@@ -39,17 +42,15 @@ public class MarkCommand extends ToDoListCommand {
      */
     public static Command parse(String args, ToDoList toDoList) throws InputMismatchException {
         if (args.isEmpty()) {
-            throw new InputMismatchException("Index must be provided");
+            throw new NikolausInputMismatchException(NO_INDEX_MESSAGE);
         }
 
-        int argsIndex;
         try {
-            argsIndex = Integer.parseInt(args);
+            int argsIndex = Integer.parseInt(args);
+            return new MarkCommand(args, toDoList, argsIndex);
         } catch (NumberFormatException noNumberError) {
-            throw new InputMismatchException("Index must be an integer");
+            throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
         }
-
-        return new MarkCommand(args, toDoList, argsIndex);
     }
 
     /**

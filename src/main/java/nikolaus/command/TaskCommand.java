@@ -25,12 +25,4 @@ public class TaskCommand extends ToDoListCommand {
     public static Command parse(String args, ToDoList toDoList) {
         return new TaskCommand(args, toDoList);
     }
-
-    /**
-     * Adds task to ToDoList
-     */
-    @Override
-    public void execute() {
-        toDoList.addTask(args);
-    }
 }

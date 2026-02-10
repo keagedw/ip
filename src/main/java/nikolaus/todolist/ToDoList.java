@@ -5,9 +5,23 @@ import java.util.Scanner;
 import nikolaus.ui.Reply;
 import nikolaus.ui.ReplyMode;
 
-public class ToDoList {
-    private static final int LIST_LENGTH = 100;
+import nikolaus.NikolausInputMismatchException;
 
+public class ToDoList {
+    // Messages
+    private static final String LIST_FULL_MESSAGE = "Apologies Traveler, the list has no more space...";
+    private static final String LIST_EMPTY_MESSAGE = "Apologies Traveler, you haven't listed anything...";
+    private static final String INVALID_INDEX_MESSAGE = "Traveler, that's outside of the list!";
+    private static final String ALREADY_MARKED_MESSAGE = "Task already marked complete!";
+    private static final String ALREADY_UNMARKED_MESSAGE = "Task hasn't been marked!!";
+    private static final String MARKED_CONFIRMATION_MESSAGE = "Sure thing! I'll put this task as MARKED!\n";
+    private static final String UNMARKED_CONFIRMATION_MESSAGE = "OK! The task has been UNMARKED!\n";
+
+    // Constants
+    private static final int LIST_LENGTH = 100;
+    private static final int ZERO_ONE_INDEX_CONVERSION = 1;
+
+    // Variables
     private Task[] list;
     private int taskCount;
 
@@ -28,28 +42,12 @@ public class ToDoList {
     }
 
     /**
-     * Adds a Task to list
-     */
-    public void addTask(String description) {
-        // checks if full
-        if (taskCount >= LIST_LENGTH) {
-            Reply.sendReply("To Do List is full");
-            return;
-        }
-
-        list[taskCount] = new Task(description);
-        Reply.sendReply("Added " + list[taskCount].getDescription());
-        taskCount++;
-    }
-
-    /**
      * Adds a ToDo to list
      */
-    public void addToDo(String description) {
+    public void addToDo(String description) throws NikolausInputMismatchException {
         // checks if full
         if (taskCount >= LIST_LENGTH) {
-            Reply.sendReply("To Do List is full");
-            return;
+            throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
         }
 
         list[taskCount] = new ToDo(description);
@@ -60,11 +58,10 @@ public class ToDoList {
     /**
      * Adds a Deadline to list
      */
-    public void addDeadline(String description, String by) {
+    public void addDeadline(String description, String by) throws NikolausInputMismatchException {
         // checks if full
         if (taskCount >= LIST_LENGTH) {
-            Reply.sendReply("To Do List is full");
-            return;
+            throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
         }
 
         list[taskCount] = new Deadline(description, by);
@@ -75,11 +72,10 @@ public class ToDoList {
     /**
      * Adds an Event to list
      */
-    public void addEvent(String description, String from, String to) {
+    public void addEvent(String description, String from, String to) throws NikolausInputMismatchException {
         // checks if full
         if (taskCount >= LIST_LENGTH) {
-            Reply.sendReply("To Do List is full");
-            return;
+            throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
         }
 
         list[taskCount] = new Event(description, from, to);
@@ -90,15 +86,14 @@ public class ToDoList {
     /**
      * Lists out items in To Do List
      */
-    public void listOut() {
+    public void listOut() throws NikolausInputMismatchException {
         if (isEmpty()) {
-            Reply.sendReply("To Do List is empty");
-            return;
+            throw new NikolausInputMismatchException(LIST_EMPTY_MESSAGE);
         }
 
         Reply.sendReply("To Do List:", ReplyMode.TOP);
         for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + ": " + list[i].toString());
+            System.out.println((i + ZERO_ONE_INDEX_CONVERSION) + ": " + list[i].toString());
         }
         Reply.createBorder();
     }
@@ -108,15 +103,15 @@ public class ToDoList {
      *
      * @param index Index of task in To Do List
      */
-    public void mark(int index) {
+    public void mark(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
-            Reply.sendReply("Not a valid index");
-        } else if (list[index - 1].isComplete()) {
-            Reply.sendReply("Task already marked complete!");
+            throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+        } else if (list[index - ZERO_ONE_INDEX_CONVERSION].isComplete()) {
+            throw new NikolausInputMismatchException(ALREADY_MARKED_MESSAGE);
         } else {
-            list[index - 1].setComplete(true);
-            Reply.sendReply("Sure thing! I'll put this task as MARKED!\n"
-                    + list[index - 1].toString(),
+            list[index - ZERO_ONE_INDEX_CONVERSION].setComplete(true);
+            Reply.sendReply(MARKED_CONFIRMATION_MESSAGE
+                    + list[index - ZERO_ONE_INDEX_CONVERSION].toString(),
                     ReplyMode.BOTH);
         }
     }
@@ -126,15 +121,15 @@ public class ToDoList {
      *
      * @param index Index of task in To Do List
      */
-    public void unmark(int index) {
+    public void unmark(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
-            Reply.sendReply("Not a valid index");
-        } else if (!list[index - 1].isComplete()) {
-            Reply.sendReply("Task already marked incomplete!");
+            throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+        } else if (!list[index - ZERO_ONE_INDEX_CONVERSION].isComplete()) {
+            throw new NikolausInputMismatchException(ALREADY_UNMARKED_MESSAGE);
         } else {
-            list[index - 1].setComplete(false);
-            Reply.sendReply("OK! The task has been UNMARKED!\n"
-                    + list[index - 1].toString(),
+            list[index - ZERO_ONE_INDEX_CONVERSION].setComplete(false);
+            Reply.sendReply(UNMARKED_CONFIRMATION_MESSAGE
+                    + list[index - ZERO_ONE_INDEX_CONVERSION].toString(),
                     ReplyMode.BOTH);
         }
     }
