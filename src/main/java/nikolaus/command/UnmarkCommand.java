@@ -4,6 +4,8 @@ import java.util.InputMismatchException;
 
 import nikolaus.todolist.ToDoList;
 
+import nikolaus.NikolausInputMismatchException;
+
 /**
  * Used to unmark a task in ToDoList
  */
@@ -36,14 +38,14 @@ public class UnmarkCommand extends ToDoListCommand {
      */
     public static Command parse(String args, ToDoList toDoList) {
         if (args.isEmpty()) {
-            throw new InputMismatchException("Index must be provided");
+            throw new NikolausInputMismatchException("You must provide an index Traveler!");
         }
 
         int argsIndex;
         try {
             argsIndex = Integer.parseInt(args);
         } catch (NumberFormatException noNumberError) {
-            throw new InputMismatchException("Index must be an integer");
+            throw new NikolausInputMismatchException("Uhhhhhhh Traveler? I don't think that's a number...");
         }
 
         return new UnmarkCommand(args, toDoList, argsIndex);

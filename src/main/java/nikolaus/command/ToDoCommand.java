@@ -2,7 +2,12 @@ package nikolaus.command;
 
 import nikolaus.todolist.ToDoList;
 
+import nikolaus.NikolausInputMismatchException;
+
 public class ToDoCommand extends TaskCommand {
+    // Messages
+    private static final String NO_ARGS_MESSAGE = "Traveler! I can't put nothing????";
+
     /**
      * {@inheritDoc}
      */
@@ -19,7 +24,10 @@ public class ToDoCommand extends TaskCommand {
      * @param toDoList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) {
+    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+        if (args.isEmpty()) {
+            throw new NikolausInputMismatchException(NO_ARGS_MESSAGE);
+        }
         return new ToDoCommand(args, toDoList);
     }
 

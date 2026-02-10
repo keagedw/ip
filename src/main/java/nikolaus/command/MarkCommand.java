@@ -7,6 +7,8 @@ import nikolaus.todolist.ToDoList;
 
 import nikolaus.ui.Reply;
 
+import nikolaus.NikolausInputMismatchException;
+
 /**
  * Used to mark a task in ToDoList as complete
  */
@@ -39,14 +41,14 @@ public class MarkCommand extends ToDoListCommand {
      */
     public static Command parse(String args, ToDoList toDoList) throws InputMismatchException {
         if (args.isEmpty()) {
-            throw new InputMismatchException("Index must be provided");
+            throw new NikolausInputMismatchException("You must provide an index Traveler!");
         }
 
         int argsIndex;
         try {
             argsIndex = Integer.parseInt(args);
         } catch (NumberFormatException noNumberError) {
-            throw new InputMismatchException("Index must be an integer");
+            throw new NikolausInputMismatchException("Uhhhhhhh Traveler? I don't think that's a number...");
         }
 
         return new MarkCommand(args, toDoList, argsIndex);
