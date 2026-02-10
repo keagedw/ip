@@ -10,13 +10,14 @@ import nikolaus.command.EventCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
 import nikolaus.command.MarkCommand;
-import nikolaus.command.TaskCommand;
 import nikolaus.command.ToDoCommand;
 import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.ToDoList;
 
 import nikolaus.ui.Reply;
+
+import nikolaus.NikolausInputMismatchException;
 
 /**
  * Processes and Handles user command inputs
@@ -33,7 +34,7 @@ public class CommandHandler {
      */
     @FunctionalInterface
     protected interface CommandFactory{
-        Command create(String args) throws InputMismatchException;
+        Command create(String args) throws NikolausInputMismatchException;
     }
 
     /**
@@ -76,7 +77,7 @@ public class CommandHandler {
         Command command;
         try {
             command = factory.create(args);
-        } catch (InputMismatchException error) {
+        } catch (NikolausInputMismatchException error) {
             Reply.sendReply(error.getMessage());
             command = new EchoCommand(input);
         }
