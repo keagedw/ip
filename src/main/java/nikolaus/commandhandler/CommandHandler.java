@@ -57,7 +57,7 @@ public class CommandHandler {
      * @param input Total user input
      * @return exit flag boolean
      */
-    public boolean execute(String input) {
+    public boolean execute(String input) throws NikolausInputMismatchException {
         // Split input into command and args
         String[] inputArray = input.trim().split(" ", 2);
         String commandTrigger = inputArray[0];
@@ -68,19 +68,12 @@ public class CommandHandler {
 
         // handles no command match
         if (factory == null) {
-            Command command = new EchoCommand(input);
-            command.execute();
-            return command.willExit();
+            throw new NikolausInputMismatchException("Pardon Traveler but I couldn't quite catch that...\n"
+                    + "Could you repeat that???");
         }
 
         // ensures correct arguments added
-        Command command;
-        try {
-            command = factory.create(args);
-        } catch (NikolausInputMismatchException error) {
-            Reply.sendReply(error.getMessage());
-            command = new EchoCommand(input);
-        }
+        Command command = factory.create(args);
         command.execute();
         return command.willExit();
     }

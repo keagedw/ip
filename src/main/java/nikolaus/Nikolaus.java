@@ -36,8 +36,12 @@ public class Nikolaus {
             // gets input from user
             String inputCommand = in.nextLine();
 
-            // handler processes command; returns command run
-            willExit = handler.execute(inputCommand);
+            try {
+                // handler processes command; returns command run
+                willExit = handler.execute(inputCommand);
+            } catch (NikolausInputMismatchException error) {
+                Reply.sendReply(error.getMessage());
+            }
         }
     }
 
