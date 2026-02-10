@@ -1,11 +1,9 @@
 package nikolaus.commandhandler;
 
 import java.util.HashMap;
-import java.util.InputMismatchException;
 
 import nikolaus.command.Command;
 import nikolaus.command.DeadlineCommand;
-import nikolaus.command.EchoCommand;
 import nikolaus.command.EventCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
@@ -15,8 +13,6 @@ import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.ui.Reply;
-
 import nikolaus.NikolausInputMismatchException;
 
 /**
@@ -24,6 +20,11 @@ import nikolaus.NikolausInputMismatchException;
  * Triggers appropriate trigger
  */
 public class CommandHandler {
+    // Messages
+    private static final String NO_INPUT_MESSAGE = "Apologies, did you say something Traveler?";
+    private static final String NO_COMMAND_MATCH_MESSAGE = "Pardon Traveler but I don't quite understand...\n"
+            + "Could you repeat that???";
+
     protected ToDoList toDoList;
 
     // list of all commands
@@ -60,7 +61,7 @@ public class CommandHandler {
     public boolean execute(String input) throws NikolausInputMismatchException {
         // handles no input
         if (input.isEmpty()) {
-            throw new NikolausInputMismatchException("Apologies, did you say something Traveler?");
+            throw new NikolausInputMismatchException(NO_INPUT_MESSAGE);
         }
 
         // Split input into command and args
@@ -73,8 +74,7 @@ public class CommandHandler {
 
         // handles no command match
         if (factory == null) {
-            throw new NikolausInputMismatchException("Pardon Traveler but I don't quite understand...\n"
-                    + "Could you repeat that???");
+            throw new NikolausInputMismatchException(NO_COMMAND_MATCH_MESSAGE);
         }
 
         // ensures correct arguments added
