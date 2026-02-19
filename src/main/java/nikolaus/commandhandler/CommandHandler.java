@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import nikolaus.command.Command;
 import nikolaus.command.DeadlineCommand;
+import nikolaus.command.DeleteCommand;
 import nikolaus.command.EventCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
@@ -34,7 +35,7 @@ public class CommandHandler {
      * Allows commands to be built
      */
     @FunctionalInterface
-    protected interface CommandFactory{
+    protected interface CommandFactory {
         Command create(String args) throws NikolausInputMismatchException;
     }
 
@@ -104,5 +105,6 @@ public class CommandHandler {
         commandRegisters.put("todo", args -> ToDoCommand.parse(args, toDoList));
         commandRegisters.put("deadline", args -> DeadlineCommand.parse(args, toDoList));
         commandRegisters.put("event", args -> EventCommand.parse(args, toDoList));
+        commandRegisters.put("delete", args -> DeleteCommand.parse(args, toDoList));
     }
 }

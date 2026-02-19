@@ -1,15 +1,13 @@
 package nikolaus.command;
 
-import java.util.InputMismatchException;
-
 import nikolaus.todolist.ToDoList;
 
 import nikolaus.NikolausInputMismatchException;
 
 /**
- * Used to mark a task in ToDoList as complete
+ * Used to delete Task from ToDoList
  */
-public class MarkCommand extends ToDoListCommand {
+public class DeleteCommand extends ToDoListCommand {
     // Messages
     private static final String NO_INDEX_MESSAGE = "You must provide an index Traveler!";
     private static final String NOT_A_NUMBER_MESSAGE = "Uhhhhhhh Traveler? I don't think that's a number...";
@@ -19,17 +17,14 @@ public class MarkCommand extends ToDoListCommand {
 
     /**
      * {@inheritDoc}
-     *
-     * Instances without index used for trigger keyword check
-     * "mark" is triggering keyword
      */
-    public MarkCommand(String args, ToDoList toDoList, int index) {
+    public DeleteCommand(String args, ToDoList toDoList, int index) {
         super(args, toDoList);
         this.index = index;
     }
 
     /**
-     * Creates an instance of MarkCommand
+     * Creates an instance of DeleteCommand
      *
      * Summoned from CommandFactory
      *
@@ -47,7 +42,7 @@ public class MarkCommand extends ToDoListCommand {
 
         try {
             int argsIndex = Integer.parseInt(args);
-            return new MarkCommand(args, toDoList, argsIndex);
+            return new DeleteCommand(args, toDoList, argsIndex);
         } catch (NumberFormatException noNumberError) {
             throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
         }
@@ -58,6 +53,6 @@ public class MarkCommand extends ToDoListCommand {
      */
     @Override
     public void execute() {
-        toDoList.mark(index);
+        toDoList.delete(index);
     }
 }
