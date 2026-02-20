@@ -41,6 +41,10 @@ public class ToDoList {
         return taskCount;
     }
 
+    public Task[] getList() {
+        return list;
+    }
+
     /**
      * Adds a ToDo to list
      */

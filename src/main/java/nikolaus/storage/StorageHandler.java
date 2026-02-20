@@ -14,6 +14,9 @@ import nikolaus.todolist.Event;
 
 import nikolaus.exceptions.NikolausIOException;
 
+/**
+ * Handles storage and file management of ToDoList contents when exiting Nikolaus
+ */
 public class StorageHandler {
     private final String filePath;
 
@@ -21,6 +24,12 @@ public class StorageHandler {
         this.filePath = filePath;
     }
 
+    /**
+     * Saves tasks from ArrayList to text file
+     *
+     * @param tasks Tasks stored in ArrayList such as from ToDoList
+     * @throws NikolausIOException Exception caught when permissions are denied, or disk is full, or network lost
+     */
     public void save(ArrayList<Task> tasks) throws NikolausIOException {
         try {
             // Create directory if needed
