@@ -60,6 +60,12 @@ public class StorageHandler {
         }
     }
 
+    /**
+     * Loads any saved to do lists from data text file
+     *
+     * @return ArrayList of Tasks to be inserted into To Do List
+     * @throws NikolausIOException Exception caught when no data file found
+     */
     public ArrayList<Task> load() throws NikolausIOException {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -75,6 +81,12 @@ public class StorageHandler {
         return tasks;
     }
 
+    /**
+     * Scans through entire data file line by line
+     *
+     * @param tasks ArrayList to add Tasks to
+     * @param fileScanner Scanner to read file
+     */
     private void scanThroughFile(ArrayList<Task> tasks, Scanner fileScanner) {
         int lineNumber = 0;
 
@@ -92,6 +104,13 @@ public class StorageHandler {
         }
     }
 
+    /**
+     * Parses through String for Task information
+     *
+     * @param line String to be parsed
+     * @return Appropriate task given the line
+     * @throws NikolausSaveFileCorruptedException When line is corrupted and no longer fits format
+     */
     private Task parseTaskFromFile(String line) throws NikolausSaveFileCorruptedException {
         String[] parts = line.split(" \\| ");
 

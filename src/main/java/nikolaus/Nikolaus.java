@@ -50,17 +50,15 @@ public class Nikolaus {
         run();
     }
 
+    /**
+     * Loads any saved to do lists from previous runs
+     */
     private static void loadSaves() {
         Reply.sendReply("Loading save file...\n", ReplyMode.TOP);
         try {
             ArrayList<Task> tasksArrayList = fileManager.load();
 
-            Task[] tasksArray = new Task[tasksArrayList.size()];
-            for (int i = 0; i < tasksArrayList.size(); i++) {
-                tasksArray[i] = tasksArrayList.get(i);
-            }
-
-            list.setList(tasksArray);
+            list.setList(tasksArrayList);
             list.setTaskCount(tasksArrayList.size());
 
             Reply.sendReply("Loaded!!! Here is the last To Do List saved:", ReplyMode.TOP);
@@ -77,18 +75,12 @@ public class Nikolaus {
         Reply.sendReply(GREETING, ReplyMode.BOTTOM);
     }
 
+    /**
+     * Saves current to do list
+     */
     private static void saveToDoList() {
-        // transform Task array to Task ArrayList
-        ArrayList<Task> tasks = new ArrayList<>();
-        for (Task task : list.getList()) {
-            if (task != null) {
-                tasks.add(task);
-            }
-        }
-
-        // saving newly made tasks ArrayList from ToDoList
         try {
-            fileManager.save(tasks);
+            fileManager.save(list.getList());
         } catch (NikolausIOException e) {
             Reply.sendReply(e.getMessage());
         }

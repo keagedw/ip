@@ -46,12 +46,12 @@ public class ToDoList {
         return taskCount;
     }
 
-    public Task[] getList() {
-        return list;
+    public ArrayList<Task> getList() {
+        return tasks;
     }
 
-    public void setList(Task[] list) {
-        this.list = list;
+    public void setList(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public void setTaskCount(int taskCount) {
@@ -151,6 +151,11 @@ public class ToDoList {
         }
     }
 
+    /**
+     * Deletes task from to do list
+     *
+     * @param index Index in List to be deleted
+     */
     public void delete(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
             throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
