@@ -1,4 +1,4 @@
-package nikolaus;
+package nikolaus.exceptions;
 
 import java.util.InputMismatchException;
 

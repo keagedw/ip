@@ -13,7 +13,7 @@ import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.NikolausInputMismatchException;
+import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
  * Processes and Handles user command inputs

@@ -9,6 +9,8 @@ import nikolaus.todolist.ToDoList;
 import nikolaus.ui.Logo;
 import nikolaus.ui.Reply;
 
+import nikolaus.exceptions.NikolausInputMismatchException;
+
 /**
  * Nikolaus, a multi-functional personal bot to help keep track of tasks!
  */

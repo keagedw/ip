@@ -1,6 +1,7 @@
 package nikolaus.todolist;
 
 public class ToDo extends Task{
+    private static final String TODO_TYPE_SIGN = "T";
 
     public ToDo(String description) {
         super(description);
@@ -8,6 +9,12 @@ public class ToDo extends Task{
 
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[" + TODO_TYPE_SIGN + "]" + super.toString();
+    }
+
+    @Override
+    public String toFileFormat() {
+        return TODO_TYPE_SIGN + " | "
+                + super.toFileFormat();
     }
 }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 import nikolaus.ui.Reply;
 import nikolaus.ui.ReplyMode;
 
-import nikolaus.NikolausInputMismatchException;
+import nikolaus.exceptions.NikolausInputMismatchException;
 
 public class ToDoList {
     // Messages
