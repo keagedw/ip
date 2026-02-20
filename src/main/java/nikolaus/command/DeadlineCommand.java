@@ -2,7 +2,7 @@ package nikolaus.command;
 
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.NikolausInputMismatchException;
+import nikolaus.exceptions.NikolausInputMismatchException;
 
 public class DeadlineCommand extends TaskCommand {
     // Messages

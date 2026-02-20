@@ -6,7 +6,7 @@ import java.util.Scanner;
 import nikolaus.ui.Reply;
 import nikolaus.ui.ReplyMode;
 
-import nikolaus.NikolausInputMismatchException;
+import nikolaus.exceptions.NikolausInputMismatchException;
 
 public class ToDoList {
     // Messages
@@ -44,6 +44,18 @@ public class ToDoList {
 
     public int getTaskCount() {
         return taskCount;
+    }
+
+    public Task[] getList() {
+        return list;
+    }
+
+    public void setList(Task[] list) {
+        this.list = list;
+    }
+
+    public void setTaskCount(int taskCount) {
+        this.taskCount = taskCount;
     }
 
     /**

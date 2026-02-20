@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 
 import nikolaus.todolist.ToDoList;
 
-import nikolaus.NikolausInputMismatchException;
+import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
  * Used to mark a task in ToDoList as complete

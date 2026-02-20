@@ -1,6 +1,8 @@
 package nikolaus.todolist;
 
 public class Event extends Task{
+    private static final String EVENT_TYPE_SIGN = "E";
+
     private String start;
     private String end;
 
@@ -15,5 +17,13 @@ public class Event extends Task{
         return "[E]" + super.toString()
                 + " (from: " + start + ")"
                 + " (to: " + end + ")";
+    }
+
+    @Override
+    public String toFileFormat() {
+        return EVENT_TYPE_SIGN + " | "
+                + super.toFileFormat() + " | "
+                + start + " | "
+                + end;
     }
 }
