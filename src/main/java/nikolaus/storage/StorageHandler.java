@@ -1,5 +1,6 @@
 package nikolaus.storage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,7 +13,10 @@ import nikolaus.todolist.ToDo;
 import nikolaus.todolist.Deadline;
 import nikolaus.todolist.Event;
 
+import nikolaus.ui.Reply;
+
 import nikolaus.exceptions.NikolausIOException;
+import nikolaus.exceptions.NikolausSaveFileCorruptedException;
 
 /**
  * Handles storage and file management of ToDoList contents when exiting Nikolaus
@@ -54,5 +58,44 @@ public class StorageHandler {
         } catch (IOException e) {
             throw new NikolausIOException("Apologies Traveler... I have issues saving file: " + e.getMessage());
         }
+    }
+
+    public ArrayList<Task> load() {
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            File file = new File(filePath);
+
+            Scanner scanner = new Scanner(file);
+            int lineNumber = 0;
+
+            while (scanner.hasNextLine()) {
+                lineNumber++;
+                String line = scanner.nextLine();
+                Task task = null;
+                if (!isCorrupted(task, line, lineNumber)) {
+                    tasks.add(task);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            return tasks;
+        }
+        return tasks;
+    }
+
+    private boolean isCorrupted(Task task, String line, int lineNumber) {
+        try {
+            task = parseTaskFromFile(line);
+        } catch (IllegalArgumentException e) {
+            Reply.sendReply("Skipping corrupted line " + lineNumber + " : " + line);
+            return true;
+        }
+        return false;
+    }
+
+    private Task parseTaskFromFile(String line) throws IllegalArgumentException {
+        String[] parts = line.split(" \\| ");
+        Task task = new Task("");
+        return task;
     }
 }
