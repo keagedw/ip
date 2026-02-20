@@ -1,5 +1,6 @@
 package nikolaus.todolist;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import nikolaus.ui.Reply;
@@ -16,20 +17,24 @@ public class ToDoList {
     private static final String ALREADY_UNMARKED_MESSAGE = "Task hasn't been marked!!";
     private static final String MARKED_CONFIRMATION_MESSAGE = "Sure thing! I'll put this task as MARKED!\n";
     private static final String UNMARKED_CONFIRMATION_MESSAGE = "OK! The task has been UNMARKED!\n";
+    private static final String REMOVED_TASK_CONFIRMATION_MESSAGE = "Good to know Traveler! "
+            + "I've removed the following:\n";
+    private static final String REMOVE_UPDATE_COUNT_MESSAGE_PART_A = "You now have ";
+    private static final String REMOVE_UPDATE_COUNT_MESSAGE_PART_B = " tasks left";
 
     // Constants
     private static final int LIST_LENGTH = 100;
     private static final int ZERO_ONE_INDEX_CONVERSION = 1;
 
     // Variables
-    private Task[] list;
+    private ArrayList<Task> tasks;
     private int taskCount;
 
     /**
      * Constructs empty To Do List
      */
     public ToDoList(Scanner scanner) {
-        list = new Task[LIST_LENGTH];
+        tasks = new ArrayList<>();
         taskCount = 0;
     }
 
@@ -50,8 +55,8 @@ public class ToDoList {
             throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
         }
 
-        list[taskCount] = new ToDo(description);
-        Reply.sendReply("Added " + list[taskCount].getDescription());
+        tasks.add(new ToDo(description));
+        Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
     }
 
@@ -64,8 +69,8 @@ public class ToDoList {
             throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
         }
 
-        list[taskCount] = new Deadline(description, by);
-        Reply.sendReply("Added " + list[taskCount].getDescription());
+        tasks.add(new Deadline(description, by));
+        Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
     }
 
@@ -78,8 +83,8 @@ public class ToDoList {
             throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
         }
 
-        list[taskCount] = new Event(description, from, to);
-        Reply.sendReply("Added " + list[taskCount].getDescription());
+        tasks.add(new Event(description, from, to));
+        Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
     }
 
@@ -93,7 +98,7 @@ public class ToDoList {
 
         Reply.sendReply("To Do List:", ReplyMode.TOP);
         for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + ZERO_ONE_INDEX_CONVERSION) + ": " + list[i].toString());
+            System.out.println((i + ZERO_ONE_INDEX_CONVERSION) + ": " + tasks.get(i).toString());
         }
         Reply.createBorder();
     }
@@ -106,12 +111,12 @@ public class ToDoList {
     public void mark(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
             throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
-        } else if (list[index - ZERO_ONE_INDEX_CONVERSION].isComplete()) {
+        } else if (tasks.get(index - ZERO_ONE_INDEX_CONVERSION).isComplete()) {
             throw new NikolausInputMismatchException(ALREADY_MARKED_MESSAGE);
         } else {
-            list[index - ZERO_ONE_INDEX_CONVERSION].setComplete(true);
+            tasks.get(index - ZERO_ONE_INDEX_CONVERSION).setComplete(true);
             Reply.sendReply(MARKED_CONFIRMATION_MESSAGE
-                    + list[index - ZERO_ONE_INDEX_CONVERSION].toString(),
+                    + tasks.get(index - ZERO_ONE_INDEX_CONVERSION).toString(),
                     ReplyMode.BOTH);
         }
     }
@@ -124,12 +129,25 @@ public class ToDoList {
     public void unmark(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
             throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
-        } else if (!list[index - ZERO_ONE_INDEX_CONVERSION].isComplete()) {
+        } else if (!tasks.get(index - ZERO_ONE_INDEX_CONVERSION).isComplete()) {
             throw new NikolausInputMismatchException(ALREADY_UNMARKED_MESSAGE);
         } else {
-            list[index - ZERO_ONE_INDEX_CONVERSION].setComplete(false);
+            tasks.get(index - ZERO_ONE_INDEX_CONVERSION).setComplete(false);
             Reply.sendReply(UNMARKED_CONFIRMATION_MESSAGE
-                    + list[index - ZERO_ONE_INDEX_CONVERSION].toString(),
+                    + tasks.get(index - ZERO_ONE_INDEX_CONVERSION).toString(),
+                    ReplyMode.BOTH);
+        }
+    }
+
+    public void delete(int index) throws NikolausInputMismatchException {
+        if (index > taskCount || index < 1) {
+            throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+        } else {
+            Task taskRemoved = tasks.remove(index - ZERO_ONE_INDEX_CONVERSION);
+            taskCount--;
+            Reply.sendReply(REMOVED_TASK_CONFIRMATION_MESSAGE
+                    + "    " + taskRemoved.toString() + "\n"
+                    + REMOVE_UPDATE_COUNT_MESSAGE_PART_A + taskCount + REMOVE_UPDATE_COUNT_MESSAGE_PART_B,
                     ReplyMode.BOTH);
         }
     }
