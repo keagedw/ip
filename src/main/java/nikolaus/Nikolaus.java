@@ -1,7 +1,6 @@
 package nikolaus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import nikolaus.storage.StorageHandler;
@@ -13,6 +12,7 @@ import nikolaus.todolist.ToDoList;
 
 import nikolaus.ui.Logo;
 import nikolaus.ui.Reply;
+import nikolaus.ui.ReplyMode;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 import nikolaus.exceptions.NikolausIOException;
@@ -26,7 +26,7 @@ public class Nikolaus {
             + "How may I be of assistance today???";
 
     // file storage path
-    private static String STORAGE_FILE = "./data/nikolaus.txt";
+    private static final String STORAGE_FILE = "./data/nikolaus.txt";
 
     // setup for command replies
     static Scanner in = new Scanner(System.in);
@@ -45,13 +45,36 @@ public class Nikolaus {
      * Executes Nikolaus
      */
     public static void main(String[] args) {
+        loadSaves();
         introduce();
         run();
     }
 
+    private static void loadSaves() {
+        Reply.sendReply("Loading save file...\n", ReplyMode.TOP);
+        try {
+            ArrayList<Task> tasksArrayList = fileManager.load();
+
+            Task[] tasksArray = new Task[tasksArrayList.size()];
+            for (int i = 0; i < tasksArrayList.size(); i++) {
+                tasksArray[i] = tasksArrayList.get(i);
+            }
+
+            list.setList(tasksArray);
+            list.setTaskCount(tasksArrayList.size());
+
+            Reply.sendReply("Loaded!!! Here is the last To Do List saved:", ReplyMode.TOP);
+            list.listOut();
+        } catch (NikolausIOException e) {
+            Reply.sendReply(e.getMessage());
+        } catch (NikolausInputMismatchException e) {
+            Reply.sendReply("No previous saved To Do List!");
+        }
+    }
+
     private static void introduce() {
         Logo.display();
-        Reply.sendReply(GREETING);
+        Reply.sendReply(GREETING, ReplyMode.BOTTOM);
     }
 
     private static void saveToDoList() {
@@ -84,6 +107,9 @@ public class Nikolaus {
                 Reply.sendReply(error.getMessage());
             }
         }
+
+        // save to do list data
+        Reply.sendReply("Saving To Do List...", ReplyMode.BOTTOM);
         saveToDoList();
     }
 }

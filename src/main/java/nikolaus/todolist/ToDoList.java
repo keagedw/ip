@@ -45,6 +45,14 @@ public class ToDoList {
         return list;
     }
 
+    public void setList(Task[] list) {
+        this.list = list;
+    }
+
+    public void setTaskCount(int taskCount) {
+        this.taskCount = taskCount;
+    }
+
     /**
      * Adds a ToDo to list
      */

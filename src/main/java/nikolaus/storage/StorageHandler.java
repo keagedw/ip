@@ -60,42 +60,78 @@ public class StorageHandler {
         }
     }
 
-    public ArrayList<Task> load() {
+    public ArrayList<Task> load() throws NikolausIOException {
         ArrayList<Task> tasks = new ArrayList<>();
-
         try {
             File file = new File(filePath);
 
-            Scanner scanner = new Scanner(file);
-            int lineNumber = 0;
+            // scan through file
+            Scanner fileScanner = new Scanner(file);
+            scanThroughFile(tasks, fileScanner);
 
-            while (scanner.hasNextLine()) {
-                lineNumber++;
-                String line = scanner.nextLine();
-                Task task = null;
-                if (!isCorrupted(task, line, lineNumber)) {
-                    tasks.add(task);
-                }
-            }
         } catch (FileNotFoundException e) {
-            return tasks;
+            throw new NikolausIOException("No previous saved To Do List!");
         }
         return tasks;
     }
 
-    private boolean isCorrupted(Task task, String line, int lineNumber) {
-        try {
-            task = parseTaskFromFile(line);
-        } catch (IllegalArgumentException e) {
-            Reply.sendReply("Skipping corrupted line " + lineNumber + " : " + line);
-            return true;
+    private void scanThroughFile(ArrayList<Task> tasks, Scanner fileScanner) {
+        int lineNumber = 0;
+
+        while (fileScanner.hasNextLine()) {
+            lineNumber++;
+            String line = fileScanner.nextLine();
+            try {
+                Task task = parseTaskFromFile(line);
+                tasks.add(task);
+            } catch (NikolausSaveFileCorruptedException e) {
+                System.out.println("Line " + lineNumber + " corrupted: "
+                        + e.getMessage() + "\n"
+                        + "Skipping corrupted line...\n");
+            }
         }
-        return false;
     }
 
-    private Task parseTaskFromFile(String line) throws IllegalArgumentException {
+    private Task parseTaskFromFile(String line) throws NikolausSaveFileCorruptedException {
         String[] parts = line.split(" \\| ");
-        Task task = new Task("");
+
+        if (parts.length <= 1) {
+            throw new NikolausSaveFileCorruptedException("Information missing");
+        }
+
+        boolean isComplete;
+        if (parts[1].equals("X")) {
+            isComplete = true;
+        } else if (parts[1].equals(" ")) {
+            isComplete = false;
+        } else {
+            throw new NikolausSaveFileCorruptedException(("Mark/Unmark sign missing"));
+        }
+
+        Task task = switch (parts[0]) {
+            case "T" -> {
+                if (parts.length == 2) {
+                    throw new NikolausSaveFileCorruptedException("ToDo information missing");
+                }
+                yield new ToDo(parts[2]);
+            }
+            case "D" -> {
+                if (parts.length < 4) {
+                    throw new NikolausSaveFileCorruptedException("Deadline information missing");
+                }
+                yield new Deadline(parts[2], parts[3]);
+            }
+            case "E" -> {
+                if (parts.length < 5) {
+                    throw new NikolausSaveFileCorruptedException("Event information missing");
+                }
+                yield new Event(parts[2], parts[3], parts[4]);
+            }
+            default -> throw new NikolausSaveFileCorruptedException("Task not recognised");
+        };
+
+        task.setComplete(isComplete);
+
         return task;
     }
 }
