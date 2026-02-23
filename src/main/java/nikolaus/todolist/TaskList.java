@@ -33,7 +33,7 @@ public class TaskList {
     /**
      * Constructs empty To Do List
      */
-    public TaskList(Scanner scanner) {
+    public TaskList() {
         tasks = new ArrayList<>();
         taskCount = 0;
     }

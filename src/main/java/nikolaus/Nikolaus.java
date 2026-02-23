@@ -24,44 +24,40 @@ public class Nikolaus {
     // file storage path
     private static final String STORAGE_FILE = "./data/nikolaus.txt";
 
-    // setup for command replies
-    static Scanner in = new Scanner(System.in);
-    static TaskList list = new TaskList(in);
+    private TaskList taskList;
+    private Storage storage;
+    private Parser parser;
+    private Ui ui;
+    private boolean willExit;
 
-    // setup for TaskList file management
-    static Storage fileManager = new Storage(STORAGE_FILE);
-
-    // setup command handler to accept commands
-    static Parser handler = new Parser(list);
-
-    // setup ui
-    static Ui ui = new Ui();
-
-    // signal to exit bot
-    static boolean willExit = false;
+    public Nikolaus(String filePath) {
+        taskList = new TaskList();
+        storage = new Storage(filePath);
+        parser = new Parser(taskList);
+        ui = new Ui();
+        willExit = false;
+    }
 
     /**
      * Executes Nikolaus
      */
     public static void main(String[] args) {
-        loadSaves();
-        ui.introduce();
-        run();
+        new Nikolaus(STORAGE_FILE).run();
     }
 
     /**
      * Loads any saved to do lists from previous runs
      */
-    private static void loadSaves() {
+    private void loadSaves() {
         Reply.sendReply("Loading save file...\n", ReplyMode.TOP);
         try {
-            ArrayList<Task> tasksArrayList = fileManager.load();
+            ArrayList<Task> tasksArrayList = storage.load();
 
-            list.setList(tasksArrayList);
-            list.setTaskCount(tasksArrayList.size());
+            taskList.setList(tasksArrayList);
+            taskList.setTaskCount(tasksArrayList.size());
 
             Reply.sendReply("Loaded!!! Here is the last To Do List saved:", ReplyMode.TOP);
-            list.listOut();
+            taskList.listOut();
         } catch (NikolausIOException e) {
             Reply.sendReply(e.getMessage());
         } catch (NikolausInputMismatchException e) {
@@ -72,23 +68,27 @@ public class Nikolaus {
     /**
      * Saves current to do list
      */
-    private static void saveToDoList() {
+    private void saveToDoList() {
         try {
-            fileManager.save(list.getList());
+            storage.save(taskList.getList());
         } catch (NikolausIOException e) {
             Reply.sendReply(e.getMessage());
         }
     }
 
-    private static void run() {
+    private void run() {
+        loadSaves();
+
+        ui.introduce();
+
         // keeps looping until command signals to stop
         while (!willExit) {
             // gets input from user
-            String inputCommand = in.nextLine();
+            String inputCommand = ui.nextLine();
 
             try {
                 // handler processes command; returns command run
-                willExit = handler.execute(inputCommand);
+                willExit = parser.execute(inputCommand);
             } catch (NikolausInputMismatchException error) {
                 Reply.sendReply(error.getMessage());
             }
