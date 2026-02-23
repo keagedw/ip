@@ -1,6 +1,6 @@
 package nikolaus.command;
 
-import nikolaus.ui.Ui;
+import nikolaus.ui.Reply;
 
 /**
  * Ends program wih farewell
@@ -35,6 +35,6 @@ public class FarewellCommand extends Command {
 
     @Override
     public void execute() {
-        Ui.sendReply(FAREWELL_MESSAGE);
+        Reply.sendReply(FAREWELL_MESSAGE);
     }
 }

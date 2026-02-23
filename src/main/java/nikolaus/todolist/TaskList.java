@@ -3,8 +3,8 @@ package nikolaus.todolist;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import nikolaus.ui.Ui;
-import nikolaus.ui.LineMode;
+import nikolaus.ui.Reply;
+import nikolaus.ui.ReplyMode;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
@@ -68,7 +68,7 @@ public class TaskList {
         }
 
         tasks.add(new ToDo(description));
-        Ui.sendReply("Added " + tasks.get(taskCount).getDescription());
+        Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
     }
 
@@ -82,7 +82,7 @@ public class TaskList {
         }
 
         tasks.add(new Deadline(description, by));
-        Ui.sendReply("Added " + tasks.get(taskCount).getDescription());
+        Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
     }
 
@@ -96,7 +96,7 @@ public class TaskList {
         }
 
         tasks.add(new Event(description, from, to));
-        Ui.sendReply("Added " + tasks.get(taskCount).getDescription());
+        Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
     }
 
@@ -108,11 +108,11 @@ public class TaskList {
             throw new NikolausInputMismatchException(LIST_EMPTY_MESSAGE);
         }
 
-        Ui.sendReply("To Do List:", LineMode.TOP);
+        Reply.sendReply("To Do List:", ReplyMode.TOP);
         for (int i = 0; i < taskCount; i++) {
             System.out.println((i + ZERO_ONE_INDEX_CONVERSION) + ": " + tasks.get(i).toString());
         }
-        Ui.createBorder();
+        Reply.createBorder();
     }
 
     /**
@@ -127,9 +127,9 @@ public class TaskList {
             throw new NikolausInputMismatchException(ALREADY_MARKED_MESSAGE);
         } else {
             tasks.get(index - ZERO_ONE_INDEX_CONVERSION).setComplete(true);
-            Ui.sendReply(MARKED_CONFIRMATION_MESSAGE
+            Reply.sendReply(MARKED_CONFIRMATION_MESSAGE
                     + tasks.get(index - ZERO_ONE_INDEX_CONVERSION).toString(),
-                         LineMode.BOTH);
+                    ReplyMode.BOTH);
         }
     }
 
@@ -145,9 +145,9 @@ public class TaskList {
             throw new NikolausInputMismatchException(ALREADY_UNMARKED_MESSAGE);
         } else {
             tasks.get(index - ZERO_ONE_INDEX_CONVERSION).setComplete(false);
-            Ui.sendReply(UNMARKED_CONFIRMATION_MESSAGE
+            Reply.sendReply(UNMARKED_CONFIRMATION_MESSAGE
                     + tasks.get(index - ZERO_ONE_INDEX_CONVERSION).toString(),
-                         LineMode.BOTH);
+                    ReplyMode.BOTH);
         }
     }
 
@@ -162,10 +162,10 @@ public class TaskList {
         } else {
             Task taskRemoved = tasks.remove(index - ZERO_ONE_INDEX_CONVERSION);
             taskCount--;
-            Ui.sendReply(REMOVED_TASK_CONFIRMATION_MESSAGE
+            Reply.sendReply(REMOVED_TASK_CONFIRMATION_MESSAGE
                     + "    " + taskRemoved.toString() + "\n"
                     + REMOVE_UPDATE_COUNT_MESSAGE_PART_A + taskCount + REMOVE_UPDATE_COUNT_MESSAGE_PART_B,
-                         LineMode.BOTH);
+                    ReplyMode.BOTH);
         }
     }
 }
