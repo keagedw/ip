@@ -8,7 +8,7 @@ import nikolaus.ui.ReplyMode;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
-public class ToDoList {
+public class TaskList {
     // Messages
     private static final String LIST_FULL_MESSAGE = "Apologies Traveler, the list has no more space...";
     private static final String LIST_EMPTY_MESSAGE = "Apologies Traveler, you haven't listed anything...";
@@ -33,7 +33,7 @@ public class ToDoList {
     /**
      * Constructs empty To Do List
      */
-    public ToDoList(Scanner scanner) {
+    public TaskList(Scanner scanner) {
         tasks = new ArrayList<>();
         taskCount = 0;
     }

@@ -13,25 +13,23 @@ import nikolaus.todolist.ToDo;
 import nikolaus.todolist.Deadline;
 import nikolaus.todolist.Event;
 
-import nikolaus.ui.Reply;
-
 import nikolaus.exceptions.NikolausIOException;
 import nikolaus.exceptions.NikolausSaveFileCorruptedException;
 
 /**
- * Handles storage and file management of ToDoList contents when exiting Nikolaus
+ * Handles storage and file management of TaskList contents when exiting Nikolaus
  */
-public class StorageHandler {
+public class Storage {
     private final String filePath;
 
-    public StorageHandler(String filePath) {
+    public Storage(String filePath) {
         this.filePath = filePath;
     }
 
     /**
      * Saves tasks from ArrayList to text file
      *
-     * @param tasks Tasks stored in ArrayList such as from ToDoList
+     * @param tasks Tasks stored in ArrayList such as from TaskList
      * @throws NikolausIOException Exception caught when permissions are denied, or disk is full, or network lost
      */
     public void save(ArrayList<Task> tasks) throws NikolausIOException {

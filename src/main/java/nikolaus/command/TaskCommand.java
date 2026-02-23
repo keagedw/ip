@@ -1,16 +1,16 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 /**
- * Used to add a task to ToDoList
+ * Used to add a task to TaskList
  */
 public class TaskCommand extends ToDoListCommand {
     /**
      * {@inheritDoc}
      */
-    public TaskCommand(String args, ToDoList toDoList) {
-        super(args, toDoList);
+    public TaskCommand(String args, TaskList taskList) {
+        super(args, taskList);
     }
 
     /**
@@ -19,10 +19,10 @@ public class TaskCommand extends ToDoListCommand {
      * Summoned from CommandFactory
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) {
-        return new TaskCommand(args, toDoList);
+    public static Command parse(String args, TaskList taskList) {
+        return new TaskCommand(args, taskList);
     }
 }

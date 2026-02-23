@@ -1,11 +1,11 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
- * Used to unmark a task in ToDoList
+ * Used to unmark a task in TaskList
  */
 public class UnmarkCommand extends ToDoListCommand {
     // Messages
@@ -21,8 +21,8 @@ public class UnmarkCommand extends ToDoListCommand {
      * Instances without index used for trigger keyword check
      * "unmark" is triggering keyword
      */
-    public UnmarkCommand(String args, ToDoList toDoList, int index) {
-        super(args, toDoList);
+    public UnmarkCommand(String args, TaskList taskList, int index) {
+        super(args, taskList);
         this.index = index;
     }
 
@@ -35,17 +35,17 @@ public class UnmarkCommand extends ToDoListCommand {
      * parses index of task to act on
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+    public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
             throw new NikolausInputMismatchException(NO_INDEX_MESSAGE);
         }
 
         try {
             int argsIndex = Integer.parseInt(args);
-            return new UnmarkCommand(args, toDoList, argsIndex);
+            return new UnmarkCommand(args, taskList, argsIndex);
         } catch (NumberFormatException noNumberError) {
             throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
         }
@@ -56,6 +56,6 @@ public class UnmarkCommand extends ToDoListCommand {
      */
     @Override
     public void execute() {
-        toDoList.unmark(index);
+        taskList.unmark(index);
     }
 }

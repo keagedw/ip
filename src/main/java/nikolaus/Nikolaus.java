@@ -3,12 +3,12 @@ package nikolaus;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import nikolaus.storage.StorageHandler;
+import nikolaus.storage.Storage;
 
-import nikolaus.commandhandler.CommandHandler;
+import nikolaus.commandhandler.Parser;
 
 import nikolaus.todolist.Task;
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.ui.Logo;
 import nikolaus.ui.Reply;
@@ -30,13 +30,13 @@ public class Nikolaus {
 
     // setup for command replies
     static Scanner in = new Scanner(System.in);
-    static ToDoList list = new ToDoList(in);
+    static TaskList list = new TaskList(in);
 
-    // setup for ToDoList file management
-    static StorageHandler fileManager = new StorageHandler(STORAGE_FILE);
+    // setup for TaskList file management
+    static Storage fileManager = new Storage(STORAGE_FILE);
 
     // setup command handler to accept commands
-    static CommandHandler handler = new CommandHandler(list);
+    static Parser handler = new Parser(list);
 
     // signal to exit bot
     static boolean willExit = false;

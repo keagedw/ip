@@ -1,6 +1,6 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
@@ -11,8 +11,8 @@ public class ToDoCommand extends TaskCommand {
     /**
      * {@inheritDoc}
      */
-    public ToDoCommand(String args, ToDoList toDoList) {
-        super(args, toDoList);
+    public ToDoCommand(String args, TaskList taskList) {
+        super(args, taskList);
     }
 
     /**
@@ -21,21 +21,21 @@ public class ToDoCommand extends TaskCommand {
      * Summoned from CommandFactory
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+    public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
             throw new NikolausInputMismatchException(NO_ARGS_MESSAGE);
         }
-        return new ToDoCommand(args, toDoList);
+        return new ToDoCommand(args, taskList);
     }
 
     /**
-     * Adds todo to ToDoList
+     * Adds todo to TaskList
      */
     @Override
     public void execute() {
-        toDoList.addToDo(args);
+        taskList.addToDo(args);
     }
 }

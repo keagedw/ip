@@ -1,11 +1,11 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
- * Used to delete Task from ToDoList
+ * Used to delete Task from TaskList
  */
 public class DeleteCommand extends ToDoListCommand {
     // Messages
@@ -18,8 +18,8 @@ public class DeleteCommand extends ToDoListCommand {
     /**
      * {@inheritDoc}
      */
-    public DeleteCommand(String args, ToDoList toDoList, int index) {
-        super(args, toDoList);
+    public DeleteCommand(String args, TaskList taskList, int index) {
+        super(args, taskList);
         this.index = index;
     }
 
@@ -32,17 +32,17 @@ public class DeleteCommand extends ToDoListCommand {
      * parses index of task to act on
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+    public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
             throw new NikolausInputMismatchException(NO_INDEX_MESSAGE);
         }
 
         try {
             int argsIndex = Integer.parseInt(args);
-            return new DeleteCommand(args, toDoList, argsIndex);
+            return new DeleteCommand(args, taskList, argsIndex);
         } catch (NumberFormatException noNumberError) {
             throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
         }
@@ -53,6 +53,6 @@ public class DeleteCommand extends ToDoListCommand {
      */
     @Override
     public void execute() {
-        toDoList.delete(index);
+        taskList.delete(index);
     }
 }

@@ -1,6 +1,6 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
@@ -22,8 +22,8 @@ public class DeadlineCommand extends TaskCommand {
     /**
      * {@inheritDoc}
      */
-    public DeadlineCommand(String args, ToDoList toDoList, String description, String by) {
-        super(args, toDoList);
+    public DeadlineCommand(String args, TaskList taskList, String description, String by) {
+        super(args, taskList);
         this.description = description;
         this.by = by;
     }
@@ -36,22 +36,22 @@ public class DeadlineCommand extends TaskCommand {
      * Parses description and by
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+    public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
             throw new NikolausInputMismatchException(NO_ARGS_MESSAGE);
         }
-        return new DeadlineCommand(args, toDoList, parseDescription(args), parseBy(args));
+        return new DeadlineCommand(args, taskList, parseDescription(args), parseBy(args));
     }
 
     /**
-     * Adds todo to ToDoList
+     * Adds todo to TaskList
      */
     @Override
     public void execute() {
-        toDoList.addDeadline(description, by);
+        taskList.addDeadline(description, by);
     }
 
     /**

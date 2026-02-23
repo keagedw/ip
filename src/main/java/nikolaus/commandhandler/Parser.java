@@ -12,7 +12,7 @@ import nikolaus.command.MarkCommand;
 import nikolaus.command.ToDoCommand;
 import nikolaus.command.UnmarkCommand;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
@@ -20,13 +20,13 @@ import nikolaus.exceptions.NikolausInputMismatchException;
  * Processes and Handles user command inputs
  * Triggers appropriate trigger
  */
-public class CommandHandler {
+public class Parser {
     // Messages
     private static final String NO_INPUT_MESSAGE = "Apologies, did you say something Traveler?";
     private static final String NO_COMMAND_MATCH_MESSAGE = "Pardon Traveler but I don't quite understand...\n"
             + "Could you repeat that???";
 
-    protected ToDoList toDoList;
+    protected TaskList taskList;
 
     // list of all commands
     private HashMap<String, CommandFactory> commandRegisters = new HashMap<String, CommandFactory>();
@@ -42,10 +42,10 @@ public class CommandHandler {
     /**
      * Lists all known commands to iterate through
      *
-     * @param toDoList ToDoList to act on for ToDoList commands
+     * @param taskList TaskList to act on for TaskList commands
      */
-    public CommandHandler(ToDoList toDoList) {
-        this.toDoList = toDoList;
+    public Parser(TaskList taskList) {
+        this.taskList = taskList;
         registerCommands();
     }
 
@@ -99,12 +99,12 @@ public class CommandHandler {
      */
     private void registerCommands() {
         commandRegisters.put("bye", args -> FarewellCommand.parse(args));
-        commandRegisters.put("list", args -> ListCommand.parse(args, toDoList));
-        commandRegisters.put("mark", args -> MarkCommand.parse(args, toDoList));
-        commandRegisters.put("unmark", args -> UnmarkCommand.parse(args, toDoList));
-        commandRegisters.put("todo", args -> ToDoCommand.parse(args, toDoList));
-        commandRegisters.put("deadline", args -> DeadlineCommand.parse(args, toDoList));
-        commandRegisters.put("event", args -> EventCommand.parse(args, toDoList));
-        commandRegisters.put("delete", args -> DeleteCommand.parse(args, toDoList));
+        commandRegisters.put("list", args -> ListCommand.parse(args, taskList));
+        commandRegisters.put("mark", args -> MarkCommand.parse(args, taskList));
+        commandRegisters.put("unmark", args -> UnmarkCommand.parse(args, taskList));
+        commandRegisters.put("todo", args -> ToDoCommand.parse(args, taskList));
+        commandRegisters.put("deadline", args -> DeadlineCommand.parse(args, taskList));
+        commandRegisters.put("event", args -> EventCommand.parse(args, taskList));
+        commandRegisters.put("delete", args -> DeleteCommand.parse(args, taskList));
     }
 }

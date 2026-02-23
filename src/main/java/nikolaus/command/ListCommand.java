@@ -1,9 +1,9 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 /**
- * Used to list down linked ToDoList
+ * Used to list down linked TaskList
  */
 public class ListCommand extends ToDoListCommand {
     /**
@@ -11,8 +11,8 @@ public class ListCommand extends ToDoListCommand {
      *
      * "list" is the triggering keyword
      */
-    public ListCommand(String args, ToDoList toDoList) {
-        super(args, toDoList);
+    public ListCommand(String args, TaskList taskList) {
+        super(args, taskList);
     }
 
     /**
@@ -21,18 +21,18 @@ public class ListCommand extends ToDoListCommand {
      * Summoned from CommandFactory
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) {
-        return new ListCommand(args, toDoList);
+    public static Command parse(String args, TaskList taskList) {
+        return new ListCommand(args, taskList);
     }
 
     /**
-     * Lists out elements in ToDoList
+     * Lists out elements in TaskList
      */
     @Override
     public void execute() {
-        toDoList.listOut();
+        taskList.listOut();
     }
 }

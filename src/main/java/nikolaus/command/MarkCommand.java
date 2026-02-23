@@ -1,13 +1,11 @@
 package nikolaus.command;
 
-import java.util.InputMismatchException;
-
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
- * Used to mark a task in ToDoList as complete
+ * Used to mark a task in TaskList as complete
  */
 public class MarkCommand extends ToDoListCommand {
     // Messages
@@ -23,8 +21,8 @@ public class MarkCommand extends ToDoListCommand {
      * Instances without index used for trigger keyword check
      * "mark" is triggering keyword
      */
-    public MarkCommand(String args, ToDoList toDoList, int index) {
-        super(args, toDoList);
+    public MarkCommand(String args, TaskList taskList, int index) {
+        super(args, taskList);
         this.index = index;
     }
 
@@ -37,17 +35,17 @@ public class MarkCommand extends ToDoListCommand {
      * parses index of task to act on
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+    public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
             throw new NikolausInputMismatchException(NO_INDEX_MESSAGE);
         }
 
         try {
             int argsIndex = Integer.parseInt(args);
-            return new MarkCommand(args, toDoList, argsIndex);
+            return new MarkCommand(args, taskList, argsIndex);
         } catch (NumberFormatException noNumberError) {
             throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
         }
@@ -58,6 +56,6 @@ public class MarkCommand extends ToDoListCommand {
      */
     @Override
     public void execute() {
-        toDoList.mark(index);
+        taskList.mark(index);
     }
 }

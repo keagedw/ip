@@ -1,6 +1,6 @@
 package nikolaus.command;
 
-import nikolaus.todolist.ToDoList;
+import nikolaus.todolist.TaskList;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
@@ -25,8 +25,8 @@ public class EventCommand extends TaskCommand {
     /**
      * {@inheritDoc}
      */
-    public EventCommand(String args, ToDoList toDoList, String description, String from, String to) {
-        super(args, toDoList);
+    public EventCommand(String args, TaskList taskList, String description, String from, String to) {
+        super(args, taskList);
         this.description = description;
         this.from = from;
         this.to = to;
@@ -38,22 +38,22 @@ public class EventCommand extends TaskCommand {
      * Summoned from CommandFactory
      *
      * @param args arguments fed
-     * @param toDoList To Do List to act on
+     * @param taskList To Do List to act on
      * @return command created
      */
-    public static Command parse(String args, ToDoList toDoList) throws NikolausInputMismatchException {
+    public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
             throw new NikolausInputMismatchException(NO_ARGS_MESSAGE);
         }
-        return new EventCommand(args, toDoList, parseDescription(args), parseFrom(args), parseTo(args));
+        return new EventCommand(args, taskList, parseDescription(args), parseFrom(args), parseTo(args));
     }
 
     /**
-     * Adds todo to ToDoList
+     * Adds todo to TaskList
      */
     @Override
     public void execute() {
-        toDoList.addEvent(description, from, to);
+        taskList.addEvent(description, from, to);
     }
 
     /**
