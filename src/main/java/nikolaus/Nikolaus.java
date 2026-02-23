@@ -10,9 +10,9 @@ import nikolaus.commandhandler.Parser;
 import nikolaus.todolist.Task;
 import nikolaus.todolist.TaskList;
 
-import nikolaus.ui.Logo;
 import nikolaus.ui.Reply;
 import nikolaus.ui.ReplyMode;
+import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 import nikolaus.exceptions.NikolausIOException;
@@ -21,10 +21,6 @@ import nikolaus.exceptions.NikolausIOException;
  * Nikolaus, a multi-functional personal bot to help keep track of tasks!
  */
 public class Nikolaus {
-    // Messages
-    private static final String GREETING = "Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\n"
-            + "How may I be of assistance today???";
-
     // file storage path
     private static final String STORAGE_FILE = "./data/nikolaus.txt";
 
@@ -38,6 +34,9 @@ public class Nikolaus {
     // setup command handler to accept commands
     static Parser handler = new Parser(list);
 
+    // setup ui
+    static Ui ui = new Ui();
+
     // signal to exit bot
     static boolean willExit = false;
 
@@ -46,7 +45,7 @@ public class Nikolaus {
      */
     public static void main(String[] args) {
         loadSaves();
-        introduce();
+        ui.introduce();
         run();
     }
 
@@ -68,11 +67,6 @@ public class Nikolaus {
         } catch (NikolausInputMismatchException e) {
             Reply.sendReply("No previous saved To Do List!");
         }
-    }
-
-    private static void introduce() {
-        Logo.display();
-        Reply.sendReply(GREETING, ReplyMode.BOTTOM);
     }
 
     /**
