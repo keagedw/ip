@@ -1,5 +1,5 @@
 package nikolaus.ui;
 
-public enum ReplyMode {
+public enum LineMode {
     BOTTOM, TOP, BOTH
 }

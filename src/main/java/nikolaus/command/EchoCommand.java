@@ -1,6 +1,6 @@
 package nikolaus.command;
 
-import nikolaus.ui.Reply;
+import nikolaus.ui.Ui;
 
 /**
  * Repeats back user input
@@ -32,6 +32,6 @@ public class EchoCommand extends Command {
      */
     @Override
     public void execute() {
-        Reply.sendReply(args);
+        Ui.sendReply(args);
     }
 }

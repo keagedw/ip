@@ -1,10 +1,10 @@
 package nikolaus.ui;
 
-public class Reply {
+public class Ui {
     private static final int DEFAULT_LENGTH = 200;
 
     public static void sendReply(String message) {
-        sendReply(message, ReplyMode.BOTH);
+        sendReply(message, LineMode.BOTH);
     }
 
     /**
@@ -13,9 +13,9 @@ public class Reply {
      * @param message Nikolaus' reply
      * @param mode UPPER: only top border, LOWER: only bottom border, BOTH: both top and bottom border
      */
-    public static void sendReply(String message, ReplyMode mode) {
+    public static void sendReply(String message, LineMode mode) {
         // create top border
-        if (mode != ReplyMode.BOTTOM) {
+        if (mode != LineMode.BOTTOM) {
             createBorder();
         }
 
@@ -23,7 +23,7 @@ public class Reply {
         System.out.println(message);
 
         // print bottom border
-        if (mode != ReplyMode.TOP) {
+        if (mode != LineMode.TOP) {
             createBorder();
         }
     }

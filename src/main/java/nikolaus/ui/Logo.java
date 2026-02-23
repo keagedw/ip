@@ -17,6 +17,6 @@ public class Logo {
             + "##     ###    ########      ########         ";
 
     public static void display() {
-        Reply.sendReply(LOGO, ReplyMode.BOTTOM);
+        Ui.sendReply(LOGO, LineMode.BOTTOM);
     }
 }
