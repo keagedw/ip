@@ -14,6 +14,8 @@ import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.TaskList;
 
+import nikolaus.ui.Ui;
+
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
@@ -21,11 +23,6 @@ import nikolaus.exceptions.NikolausInputMismatchException;
  * Triggers appropriate trigger
  */
 public class Parser {
-    // Messages
-    private static final String NO_INPUT_MESSAGE = "Apologies, did you say something Traveler?";
-    private static final String NO_COMMAND_MATCH_MESSAGE = "Pardon Traveler but I don't quite understand...\n"
-            + "Could you repeat that???";
-
     protected TaskList taskList;
 
     // list of all commands
@@ -62,7 +59,7 @@ public class Parser {
     public boolean execute(String input) throws NikolausInputMismatchException {
         // handles no input
         if (input.isEmpty()) {
-            throw new NikolausInputMismatchException(NO_INPUT_MESSAGE);
+            throw Ui.throwNoInputException();
         }
 
         // Split input into command and args
@@ -75,7 +72,7 @@ public class Parser {
 
         // handles no command match
         if (factory == null) {
-            throw new NikolausInputMismatchException(NO_COMMAND_MATCH_MESSAGE);
+            throw Ui.throwNoCommandMatchException();
         }
 
         // ensures correct arguments added

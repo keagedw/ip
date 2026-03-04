@@ -2,7 +2,9 @@ package nikolaus.ui;
 
 import java.util.Scanner;
 
+import nikolaus.exceptions.NikolausIOException;
 import nikolaus.exceptions.NikolausInputMismatchException;
+import nikolaus.exceptions.NikolausSaveFileCorruptedException;
 
 public class Ui {
     // Main messages
@@ -24,6 +26,20 @@ public class Ui {
     private static final String NO_COMMAND_MATCH_MESSAGE = "Pardon Traveler but I don't quite understand...\n"
             + "Could you repeat that???";
 
+    // Storage messages
+    private static final String DIRECTORY_CREATED_MESSAGE = "Created directory: ";
+    private static final String SAVE_FILE_ISSUE_MESSAGE = "Apologies Traveler... I have issues saving file: ";
+    private static final String NO_PREVIOUS_SAVE_MESSAGE = "No previous saved To Do List!";
+    private static final String LINE_CORRUPTED_MESSAGE_A = "Line ";
+    private static final String LINE_CORRUPTED_MESSAGE_B = " corrupted: ";
+    private static final String LINE_CORRUPTED_MESSAGE_C = "\nSkipping corrupted line...\n";
+    private static final String INFO_MISSING_MESSAGE = "Information missing";
+    private static final String MARK_UNMARK_SIGN_MISSING_MESSAGE = "Mark/Unmark sign missing";
+    private static final String TODO_INFO_MISSING = "ToDo information missing";
+    private static final String DEADLINE_INFO_MISSING = "Deadline information missing";
+    private static final String EVENT_INFO_MISSING = "Event information missing";
+    private static final String TASK_NOT_RECOGNISED_MESSAGE = "Task not recognised";
+
     private static Scanner in;
 
     private Ui() {
@@ -41,6 +57,48 @@ public class Ui {
 
     public static void sendFarewellMessage() {
         Reply.sendReply(FAREWELL_MESSAGE);
+    }
+
+    public static void sendDirectoryCreatedMessage(String path) {
+        System.out.println(DIRECTORY_CREATED_MESSAGE + path);
+    }
+
+    public static void sendLineCorruptedMessage(int lineNumber, String message) {
+        System.out.println(LINE_CORRUPTED_MESSAGE_A + lineNumber
+                + LINE_CORRUPTED_MESSAGE_B + message
+                + LINE_CORRUPTED_MESSAGE_C);
+    }
+
+    public static NikolausIOException throwSaveFileIssueMessage(String message) {
+        return new NikolausIOException(SAVE_FILE_ISSUE_MESSAGE + message);
+    }
+
+    public static NikolausIOException throwNoPreviousSaveMessage() {
+        return new NikolausIOException(NO_PREVIOUS_SAVE_MESSAGE);
+    }
+
+    public static NikolausSaveFileCorruptedException throwInfoMissingMessage() {
+        return new NikolausSaveFileCorruptedException(INFO_MISSING_MESSAGE);
+    }
+
+    public static NikolausSaveFileCorruptedException throwMarkUnmarkSignMissingMessage() {
+        return new NikolausSaveFileCorruptedException(MARK_UNMARK_SIGN_MISSING_MESSAGE);
+    }
+
+    public static NikolausSaveFileCorruptedException throwToDoInfoMissingMessage() {
+        return new NikolausSaveFileCorruptedException(TODO_INFO_MISSING);
+    }
+
+    public static NikolausSaveFileCorruptedException throwDeadlineInfoMissingMessage() {
+        return new NikolausSaveFileCorruptedException(DEADLINE_INFO_MISSING);
+    }
+
+    public static NikolausSaveFileCorruptedException throwEventInfoMissingMessage() {
+        return new NikolausSaveFileCorruptedException(EVENT_INFO_MISSING);
+    }
+
+    public static NikolausSaveFileCorruptedException throwTaskNotRecognisedMessage() {
+        return new NikolausSaveFileCorruptedException(TASK_NOT_RECOGNISED_MESSAGE);
     }
 
     public static NikolausInputMismatchException throwNoArgsException() {
@@ -65,5 +123,13 @@ public class Ui {
 
     public static NikolausInputMismatchException throwNotNumberException() {
         return new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
+    }
+
+    public static NikolausInputMismatchException throwNoInputException() {
+        return new NikolausInputMismatchException(NO_INPUT_MESSAGE);
+    }
+
+    public static NikolausInputMismatchException throwNoCommandMatchException() {
+        return new NikolausInputMismatchException(NO_COMMAND_MATCH_MESSAGE);
     }
 }

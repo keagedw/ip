@@ -13,6 +13,8 @@ import nikolaus.todolist.ToDo;
 import nikolaus.todolist.Deadline;
 import nikolaus.todolist.Event;
 
+import nikolaus.ui.Ui;
+
 import nikolaus.exceptions.NikolausIOException;
 import nikolaus.exceptions.NikolausSaveFileCorruptedException;
 
@@ -20,6 +22,14 @@ import nikolaus.exceptions.NikolausSaveFileCorruptedException;
  * Handles storage and file management of TaskList contents when exiting Nikolaus
  */
 public class Storage {
+    // Constants
+    private final String LINE_SPLIT_REGEX = " \\| ";
+    private final String MARK_INDICATOR = "X";
+    private final String UNMARK_INDICATOR = " ";
+    private final String TODO_INDICATOR = "T";
+    private final String DEADLINE_INDICATOR = "D";
+    private final String EVENT_INDICATOR = "E";
+
     private final String filePath;
 
     public Storage(String filePath) {
@@ -41,7 +51,7 @@ public class Storage {
             if (dir != null && !dir.exists()) {
                 boolean created = dir.mkdirs();
                 if (created) {
-                    System.out.println("Created directory: " + dir.getPath());
+                    Ui.sendDirectoryCreatedMessage(dir.getPath());
                 }
             }
             // Write tasks to file
@@ -54,7 +64,7 @@ public class Storage {
             writer.close();
 
         } catch (IOException e) {
-            throw new NikolausIOException("Apologies Traveler... I have issues saving file: " + e.getMessage());
+            throw Ui.throwSaveFileIssueMessage(e.getMessage());
         }
     }
 
@@ -74,7 +84,7 @@ public class Storage {
             scanThroughFile(tasks, fileScanner);
 
         } catch (FileNotFoundException e) {
-            throw new NikolausIOException("No previous saved To Do List!");
+            throw Ui.throwNoPreviousSaveMessage();
         }
         return tasks;
     }
@@ -95,9 +105,7 @@ public class Storage {
                 Task task = parseTaskFromFile(line);
                 tasks.add(task);
             } catch (NikolausSaveFileCorruptedException e) {
-                System.out.println("Line " + lineNumber + " corrupted: "
-                        + e.getMessage() + "\n"
-                        + "Skipping corrupted line...\n");
+                Ui.sendLineCorruptedMessage(lineNumber, e.getMessage());
             }
         }
     }
@@ -110,41 +118,41 @@ public class Storage {
      * @throws NikolausSaveFileCorruptedException When line is corrupted and no longer fits format
      */
     private Task parseTaskFromFile(String line) throws NikolausSaveFileCorruptedException {
-        String[] parts = line.split(" \\| ");
+        String[] parts = line.split(LINE_SPLIT_REGEX);
 
         if (parts.length <= 1) {
-            throw new NikolausSaveFileCorruptedException("Information missing");
+            throw Ui.throwInfoMissingMessage();
         }
 
         boolean isComplete;
-        if (parts[1].equals("X")) {
+        if (parts[1].equals(MARK_INDICATOR)) {
             isComplete = true;
-        } else if (parts[1].equals(" ")) {
+        } else if (parts[1].equals(UNMARK_INDICATOR)) {
             isComplete = false;
         } else {
-            throw new NikolausSaveFileCorruptedException(("Mark/Unmark sign missing"));
+            throw Ui.throwMarkUnmarkSignMissingMessage();
         }
 
         Task task = switch (parts[0]) {
-            case "T" -> {
+            case TODO_INDICATOR -> {
                 if (parts.length == 2) {
-                    throw new NikolausSaveFileCorruptedException("ToDo information missing");
+                    throw Ui.throwToDoInfoMissingMessage();
                 }
                 yield new ToDo(parts[2]);
             }
-            case "D" -> {
+            case DEADLINE_INDICATOR -> {
                 if (parts.length < 4) {
-                    throw new NikolausSaveFileCorruptedException("Deadline information missing");
+                    throw Ui.throwDeadlineInfoMissingMessage();
                 }
                 yield new Deadline(parts[2], parts[3]);
             }
-            case "E" -> {
+            case EVENT_INDICATOR -> {
                 if (parts.length < 5) {
-                    throw new NikolausSaveFileCorruptedException("Event information missing");
+                    throw Ui.throwEventInfoMissingMessage();
                 }
                 yield new Event(parts[2], parts[3], parts[4]);
             }
-            default -> throw new NikolausSaveFileCorruptedException("Task not recognised");
+            default -> throw Ui.throwTaskNotRecognisedMessage();
         };
 
         task.setComplete(isComplete);
