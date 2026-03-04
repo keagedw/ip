@@ -9,6 +9,9 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
+/**
+ * Stores task list and methods associated with task list
+ */
 public class TaskList {
     // Messages
     private static final String MARKED_CONFIRMATION_MESSAGE = "Sure thing! I'll put this task as MARKED!\n";

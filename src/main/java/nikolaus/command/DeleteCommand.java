@@ -7,7 +7,8 @@ import nikolaus.ui.Ui;
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
- * Used to delete Task from TaskList
+ * Routes command line input to command execution
+ * Deletes Task from TaskList
  */
 public class DeleteCommand extends ToDoListCommand {
     // Variables
@@ -47,7 +48,7 @@ public class DeleteCommand extends ToDoListCommand {
     }
 
     /**
-     * Marks task at specified index as complete
+     * Deletes task at specified index
      */
     @Override
     public void execute() {

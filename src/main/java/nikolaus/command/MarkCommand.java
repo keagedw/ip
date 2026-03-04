@@ -7,7 +7,8 @@ import nikolaus.ui.Ui;
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
- * Used to mark a task in TaskList as complete
+ * Routes command line input to command execution
+ * Marks a task in TaskList as complete
  */
 public class MarkCommand extends ToDoListCommand {
     // Variables

@@ -6,6 +6,10 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
+/**
+ * Routes command line input to command execution
+ * Adds a todo to task list
+ */
 public class AddToDoCommand extends AddTaskCommand {
     /**
      * {@inheritDoc}

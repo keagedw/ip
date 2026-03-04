@@ -1,5 +1,8 @@
 package nikolaus.todolist;
 
+/**
+ * Task that includes description and completion by date and time
+ */
 public class Deadline extends Task{
     private static final String DEADLINE_TYPE_SIGN = "D";
 

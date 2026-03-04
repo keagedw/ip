@@ -7,7 +7,8 @@ import nikolaus.ui.Ui;
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
- * Used to unmark a task in TaskList
+ * Routes command line input to command execution
+ * Unmarks a task in TaskList
  */
 public class UnmarkCommand extends ToDoListCommand {
     // Variables

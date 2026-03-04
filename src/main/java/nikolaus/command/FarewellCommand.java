@@ -4,6 +4,7 @@ import nikolaus.ui.Reply;
 import nikolaus.ui.Ui;
 
 /**
+ * Routes command line input to command execution
  * Ends program wih farewell
  */
 public class FarewellCommand extends Command {
@@ -31,6 +32,9 @@ public class FarewellCommand extends Command {
         return true;
     }
 
+    /**
+     * Bids farewell
+     */
     @Override
     public void execute() {
         Ui.sendFarewellMessage();

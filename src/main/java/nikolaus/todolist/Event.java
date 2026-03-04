@@ -1,5 +1,8 @@
 package nikolaus.todolist;
 
+/**
+ * Task that includes description, and from and to date and time
+ */
 public class Event extends Task{
     private static final String EVENT_TYPE_SIGN = "E";
 

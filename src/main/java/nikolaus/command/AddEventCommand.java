@@ -6,6 +6,10 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
+/**
+ * Routes command line input to command execution
+ * Adds an event to TaskList
+ */
 public class AddEventCommand extends AddTaskCommand {
     // Constants
     private static final String FROM_INDICATOR = "/from";
@@ -46,7 +50,7 @@ public class AddEventCommand extends AddTaskCommand {
     }
 
     /**
-     * Adds todo to TaskList
+     * Adds event to TaskList
      */
     @Override
     public void execute() {
