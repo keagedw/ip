@@ -9,8 +9,6 @@ import nikolaus.commandhandler.Parser;
 import nikolaus.todolist.Task;
 import nikolaus.todolist.TaskList;
 
-import nikolaus.ui.Reply;
-import nikolaus.ui.ReplyMode;
 import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
