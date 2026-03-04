@@ -23,6 +23,7 @@ public class Ui {
     private static final String NO_TO_INDICATOR_MESSAGE = "Traveler, you need to add \"/to\" !!!";
     private static final String NO_INDEX_MESSAGE = "You must provide an index Traveler!";
     private static final String NOT_A_NUMBER_MESSAGE = "Uhhhhhhh Traveler? I don't think that's a number...";
+    private static final String NOT_ONE_WORD_MESSAGE = "I can only handle 1 word Traveler!";
 
     // Parser messages
     private static final String NO_INPUT_MESSAGE = "Apologies, did you say something Traveler?";
@@ -42,6 +43,14 @@ public class Ui {
     private static final String DEADLINE_INFO_MISSING = "Deadline information missing";
     private static final String EVENT_INFO_MISSING = "Event information missing";
     private static final String TASK_NOT_RECOGNISED_MESSAGE = "Task not recognised";
+
+    // TaskList messages
+    private static final String LIST_EMPTY_MESSAGE = "Apologies Traveler, you haven't listed anything...";
+    private static final String INVALID_INDEX_MESSAGE = "Traveler, that's outside of the list!";
+    private static final String ALREADY_MARKED_MESSAGE = "Task already marked complete!";
+    private static final String ALREADY_UNMARKED_MESSAGE = "Task hasn't been marked!!";
+    private static final String NO_MATCHING_TASKS_MESSAGE = "There aren't any tasks that match that Traveler...";
+    private static final String MATCHING_TASKS_MESSAGE = "Alright Traveler! Here are the matching tasks:";
 
     private static Scanner in = new Scanner(System.in);
 
@@ -86,6 +95,14 @@ public class Ui {
 
     public static void sendNoPreviousSaveMessage() {
         Reply.sendReply(NO_PREVIOUS_SAVE_MESSAGE);
+    }
+
+    public static void sendNoMatchingTasksMessage() {
+        Reply.sendReply(NO_MATCHING_TASKS_MESSAGE);
+    }
+
+    public static void sendMatchingTasksMessage() {
+        Reply.sendReply(MATCHING_TASKS_MESSAGE, ReplyMode.TOP);
     }
 
     public static void sendErrorMessage(String message) {
@@ -152,7 +169,27 @@ public class Ui {
         return new NikolausInputMismatchException(NO_INPUT_MESSAGE);
     }
 
+    public static NikolausInputMismatchException throwNotOneWordException() {
+        return new NikolausInputMismatchException(NOT_ONE_WORD_MESSAGE);
+    }
+
     public static NikolausInputMismatchException throwNoCommandMatchException() {
         return new NikolausInputMismatchException(NO_COMMAND_MATCH_MESSAGE);
+    }
+
+    public static NikolausInputMismatchException throwListEmptyException() {
+        return new NikolausInputMismatchException(LIST_EMPTY_MESSAGE);
+    }
+
+    public static NikolausInputMismatchException throwInvalidIndexException() {
+        return new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+    }
+
+    public static NikolausInputMismatchException throwAlreadyMarkedException() {
+        return new NikolausInputMismatchException(ALREADY_MARKED_MESSAGE);
+    }
+
+    public static NikolausInputMismatchException throwAlreadyUnmarkedException() {
+        return new NikolausInputMismatchException(ALREADY_UNMARKED_MESSAGE);
     }
 }

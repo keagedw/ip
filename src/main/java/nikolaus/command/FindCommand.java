@@ -7,6 +7,10 @@ import nikolaus.ui.Ui;
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 public class FindCommand extends ToDoListCommand {
+    // Constants
+    private static final int MAX_WORD_COUNT = 1;
+    private static final String TOKENS_REGEX = " ";
+
     public FindCommand(String args, TaskList taskList) {
         super(args, taskList);
     }
@@ -16,9 +20,9 @@ public class FindCommand extends ToDoListCommand {
             throw Ui.throwNoArgsException();
         }
 
-        String[] tokens = args.split(" ");
-        if (tokens.length > 1) {
-            throw new NikolausInputMismatchException("I can only handle 1 word Traveler!");
+        String[] tokens = args.split(TOKENS_REGEX);
+        if (tokens.length > MAX_WORD_COUNT) {
+            throw Ui.throwNotOneWordException();
         }
 
         return new FindCommand(args, taskList);

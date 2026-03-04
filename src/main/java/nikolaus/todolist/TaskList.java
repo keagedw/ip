@@ -5,16 +5,12 @@ import java.util.Scanner;
 
 import nikolaus.ui.Reply;
 import nikolaus.ui.ReplyMode;
+import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 public class TaskList {
     // Messages
-    private static final String LIST_FULL_MESSAGE = "Apologies Traveler, the list has no more space...";
-    private static final String LIST_EMPTY_MESSAGE = "Apologies Traveler, you haven't listed anything...";
-    private static final String INVALID_INDEX_MESSAGE = "Traveler, that's outside of the list!";
-    private static final String ALREADY_MARKED_MESSAGE = "Task already marked complete!";
-    private static final String ALREADY_UNMARKED_MESSAGE = "Task hasn't been marked!!";
     private static final String MARKED_CONFIRMATION_MESSAGE = "Sure thing! I'll put this task as MARKED!\n";
     private static final String UNMARKED_CONFIRMATION_MESSAGE = "OK! The task has been UNMARKED!\n";
     private static final String REMOVED_TASK_CONFIRMATION_MESSAGE = "Good to know Traveler! "
@@ -23,7 +19,6 @@ public class TaskList {
     private static final String REMOVE_UPDATE_COUNT_MESSAGE_PART_B = " tasks left";
 
     // Constants
-    private static final int LIST_LENGTH = 100;
     private static final int ZERO_ONE_INDEX_CONVERSION = 1;
 
     // Variables
@@ -62,11 +57,6 @@ public class TaskList {
      * Adds a ToDo to list
      */
     public void addToDo(String description) throws NikolausInputMismatchException {
-        // checks if full
-        if (taskCount >= LIST_LENGTH) {
-            throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
-        }
-
         tasks.add(new ToDo(description));
         Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
@@ -76,11 +66,6 @@ public class TaskList {
      * Adds a Deadline to list
      */
     public void addDeadline(String description, String by) throws NikolausInputMismatchException {
-        // checks if full
-        if (taskCount >= LIST_LENGTH) {
-            throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
-        }
-
         tasks.add(new Deadline(description, by));
         Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
@@ -90,11 +75,6 @@ public class TaskList {
      * Adds an Event to list
      */
     public void addEvent(String description, String from, String to) throws NikolausInputMismatchException {
-        // checks if full
-        if (taskCount >= LIST_LENGTH) {
-            throw new NikolausInputMismatchException(LIST_FULL_MESSAGE);
-        }
-
         tasks.add(new Event(description, from, to));
         Reply.sendReply("Added " + tasks.get(taskCount).getDescription());
         taskCount++;
@@ -105,7 +85,7 @@ public class TaskList {
      */
     public void listOut() throws NikolausInputMismatchException {
         if (isEmpty()) {
-            throw new NikolausInputMismatchException(LIST_EMPTY_MESSAGE);
+            throw Ui.throwListEmptyException();
         }
 
         Reply.sendReply("To Do List:", ReplyMode.TOP);
@@ -122,9 +102,9 @@ public class TaskList {
      */
     public void mark(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
-            throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+            throw Ui.throwInvalidIndexException();
         } else if (tasks.get(index - ZERO_ONE_INDEX_CONVERSION).isComplete()) {
-            throw new NikolausInputMismatchException(ALREADY_MARKED_MESSAGE);
+            throw Ui.throwAlreadyMarkedException();
         } else {
             tasks.get(index - ZERO_ONE_INDEX_CONVERSION).setComplete(true);
             Reply.sendReply(MARKED_CONFIRMATION_MESSAGE
@@ -140,9 +120,9 @@ public class TaskList {
      */
     public void unmark(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
-            throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+            throw Ui.throwInvalidIndexException();
         } else if (!tasks.get(index - ZERO_ONE_INDEX_CONVERSION).isComplete()) {
-            throw new NikolausInputMismatchException(ALREADY_UNMARKED_MESSAGE);
+            throw Ui.throwAlreadyUnmarkedException();
         } else {
             tasks.get(index - ZERO_ONE_INDEX_CONVERSION).setComplete(false);
             Reply.sendReply(UNMARKED_CONFIRMATION_MESSAGE
@@ -158,7 +138,7 @@ public class TaskList {
      */
     public void delete(int index) throws NikolausInputMismatchException {
         if (index > taskCount || index < 1) {
-            throw new NikolausInputMismatchException(INVALID_INDEX_MESSAGE);
+            throw Ui.throwInvalidIndexException();
         } else {
             Task taskRemoved = tasks.remove(index - ZERO_ONE_INDEX_CONVERSION);
             taskCount--;
@@ -169,6 +149,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Find tasks from task list with keyword in description
+     *
+     * @param keyword Keyword to look for in description
+     */
     public void find(String keyword) throws NikolausInputMismatchException {
         ArrayList<Integer> taskIndices = new ArrayList<Integer>();
 
@@ -183,11 +168,11 @@ public class TaskList {
         }
 
         if (taskIndices.isEmpty()) {
-            Reply.sendReply("There aren't any tasks that match that Traveler...");
+            Ui.sendNoMatchingTasksMessage();
             return;
         }
 
-        Reply.sendReply("Alright Traveler! Here are the matching tasks:", ReplyMode.TOP);
+        Ui.sendMatchingTasksMessage();
         for (int index : taskIndices) {
             System.out.println((index + ZERO_ONE_INDEX_CONVERSION) + ": " + tasks.get(index).toString());
         }
