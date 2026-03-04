@@ -6,7 +6,7 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
-public class DeadlineCommand extends TaskCommand {
+public class AddDeadlineCommand extends AddTaskCommand {
     // Constants
     private static final String BY_INDICATOR = "/by";
     private static final int BY_LENGTH = 4;
@@ -20,7 +20,7 @@ public class DeadlineCommand extends TaskCommand {
     /**
      * {@inheritDoc}
      */
-    public DeadlineCommand(String args, TaskList taskList, String description, String by) {
+    public AddDeadlineCommand(String args, TaskList taskList, String description, String by) {
         super(args, taskList);
         this.description = description;
         this.by = by;
@@ -41,7 +41,7 @@ public class DeadlineCommand extends TaskCommand {
         if (args.isEmpty()) {
             throw Ui.throwNoArgsException();
         }
-        return new DeadlineCommand(args, taskList, parseDescription(args), parseBy(args));
+        return new AddDeadlineCommand(args, taskList, parseDescription(args), parseBy(args));
     }
 
     /**

@@ -2,14 +2,14 @@ package nikolaus.commandhandler;
 
 import java.util.HashMap;
 
+import nikolaus.command.AddToDoCommand;
 import nikolaus.command.Command;
-import nikolaus.command.DeadlineCommand;
+import nikolaus.command.AddDeadlineCommand;
 import nikolaus.command.DeleteCommand;
-import nikolaus.command.EventCommand;
+import nikolaus.command.AddEventCommand;
 import nikolaus.command.FarewellCommand;
 import nikolaus.command.ListCommand;
 import nikolaus.command.MarkCommand;
-import nikolaus.command.ToDoCommand;
 import nikolaus.command.UnmarkCommand;
 
 import nikolaus.todolist.TaskList;
@@ -99,9 +99,9 @@ public class Parser {
         commandRegisters.put("list", args -> ListCommand.parse(args, taskList));
         commandRegisters.put("mark", args -> MarkCommand.parse(args, taskList));
         commandRegisters.put("unmark", args -> UnmarkCommand.parse(args, taskList));
-        commandRegisters.put("todo", args -> ToDoCommand.parse(args, taskList));
-        commandRegisters.put("deadline", args -> DeadlineCommand.parse(args, taskList));
-        commandRegisters.put("event", args -> EventCommand.parse(args, taskList));
+        commandRegisters.put("todo", args -> AddToDoCommand.parse(args, taskList));
+        commandRegisters.put("deadline", args -> AddDeadlineCommand.parse(args, taskList));
+        commandRegisters.put("event", args -> AddEventCommand.parse(args, taskList));
         commandRegisters.put("delete", args -> DeleteCommand.parse(args, taskList));
     }
 }

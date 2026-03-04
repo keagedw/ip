@@ -6,11 +6,11 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
-public class ToDoCommand extends TaskCommand {
+public class AddToDoCommand extends AddTaskCommand {
     /**
      * {@inheritDoc}
      */
-    public ToDoCommand(String args, TaskList taskList) {
+    public AddToDoCommand(String args, TaskList taskList) {
         super(args, taskList);
     }
 
@@ -27,7 +27,7 @@ public class ToDoCommand extends TaskCommand {
         if (args.isEmpty()) {
             throw Ui.throwNoArgsException();
         }
-        return new ToDoCommand(args, taskList);
+        return new AddToDoCommand(args, taskList);
     }
 
     /**

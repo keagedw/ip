@@ -5,11 +5,11 @@ import nikolaus.todolist.TaskList;
 /**
  * Used to add a task to TaskList
  */
-public class TaskCommand extends ToDoListCommand {
+public class AddTaskCommand extends ToDoListCommand {
     /**
      * {@inheritDoc}
      */
-    public TaskCommand(String args, TaskList taskList) {
+    public AddTaskCommand(String args, TaskList taskList) {
         super(args, taskList);
     }
 
@@ -23,6 +23,6 @@ public class TaskCommand extends ToDoListCommand {
      * @return command created
      */
     public static Command parse(String args, TaskList taskList) {
-        return new TaskCommand(args, taskList);
+        return new AddTaskCommand(args, taskList);
     }
 }

@@ -6,7 +6,7 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
-public class EventCommand extends TaskCommand {
+public class AddEventCommand extends AddTaskCommand {
     // Constants
     private static final String FROM_INDICATOR = "/from";
     private static final String TO_INDICATOR = "/to";
@@ -22,7 +22,7 @@ public class EventCommand extends TaskCommand {
     /**
      * {@inheritDoc}
      */
-    public EventCommand(String args, TaskList taskList, String description, String from, String to) {
+    public AddEventCommand(String args, TaskList taskList, String description, String from, String to) {
         super(args, taskList);
         this.description = description;
         this.from = from;
@@ -42,7 +42,7 @@ public class EventCommand extends TaskCommand {
         if (args.isEmpty()) {
             throw Ui.throwNoArgsException();
         }
-        return new EventCommand(args, taskList, parseDescription(args), parseFrom(args), parseTo(args));
+        return new AddEventCommand(args, taskList, parseDescription(args), parseFrom(args), parseTo(args));
     }
 
     /**
