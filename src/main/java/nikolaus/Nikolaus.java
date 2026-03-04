@@ -46,19 +46,17 @@ public class Nikolaus {
      * Loads any saved to do lists from previous runs
      */
     private void loadSaves() {
-        Reply.sendReply("Loading save file...\n", ReplyMode.TOP);
+        Ui.sendLoadSaveFileMessage();
         try {
             ArrayList<Task> tasksArrayList = storage.load();
 
             taskList.setList(tasksArrayList);
             taskList.setTaskCount(tasksArrayList.size());
 
-            Reply.sendReply("Loaded!!! Here is the last To Do List saved:", ReplyMode.TOP);
+            Ui.sendLoadedWithSavedListMessage();
             taskList.listOut();
-        } catch (NikolausIOException e) {
-            Reply.sendReply(e.getMessage());
-        } catch (NikolausInputMismatchException e) {
-            Reply.sendReply("No previous saved To Do List!");
+        } catch (NikolausIOException | NikolausInputMismatchException e) {
+            Ui.sendNoPreviousSaveMessage();
         }
     }
 
@@ -69,7 +67,7 @@ public class Nikolaus {
         try {
             storage.save(taskList.getList());
         } catch (NikolausIOException e) {
-            Reply.sendReply(e.getMessage());
+            Ui.sendErrorMessage(e.getMessage());
         }
     }
 
@@ -86,13 +84,13 @@ public class Nikolaus {
             try {
                 // handler processes command; returns command run
                 willExit = parser.execute(inputCommand);
-            } catch (NikolausInputMismatchException error) {
-                Reply.sendReply(error.getMessage());
+            } catch (NikolausInputMismatchException e) {
+                Ui.sendErrorMessage(e.getMessage());
             }
         }
 
         // save to do list data
-        Reply.sendReply("Saving To Do List...", ReplyMode.BOTTOM);
+        Ui.sendSavingListMessage();
         saveToDoList();
     }
 }

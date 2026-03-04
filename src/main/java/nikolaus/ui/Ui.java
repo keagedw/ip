@@ -8,8 +8,11 @@ import nikolaus.exceptions.NikolausSaveFileCorruptedException;
 
 public class Ui {
     // Main messages
-    private static final String GREETING = "Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\n"
+    private static final String GREETING_MESSAGE = "Greetings Adventurer!!! I'm Nikolaus, your friendly personal guide!!!\n"
             + "How may I be of assistance today???";
+    private static final String LOAD_SAVE_FILE_MESSAGE = "Loading save file...\n";
+    private static final String LOADED_WITH_SAVE_FILE_MESSAGE = "Loaded!!! Here is the last To Do List saved:";
+    private static final String SAVING_LIST_MESSAGE = "Saving To Do List...";
 
     // Command messages
     private static final String FAREWELL_MESSAGE = "Farewell!!! "
@@ -48,7 +51,7 @@ public class Ui {
 
     public static void introduce() {
         Logo.display();
-        Reply.sendReply(GREETING, ReplyMode.BOTTOM);
+        Reply.sendReply(GREETING_MESSAGE, ReplyMode.BOTTOM);
     }
 
     public static String nextLine() {
@@ -59,6 +62,18 @@ public class Ui {
         Reply.sendReply(FAREWELL_MESSAGE);
     }
 
+    public static void sendLoadSaveFileMessage() {
+        Reply.sendReply(LOAD_SAVE_FILE_MESSAGE, ReplyMode.TOP);
+    }
+
+    public static void sendLoadedWithSavedListMessage() {
+        Reply.sendReply(LOADED_WITH_SAVE_FILE_MESSAGE, ReplyMode.TOP);
+    }
+
+    public static void sendSavingListMessage() {
+        Reply.sendReply(SAVING_LIST_MESSAGE, ReplyMode.BOTTOM);
+    }
+
     public static void sendDirectoryCreatedMessage(String path) {
         System.out.println(DIRECTORY_CREATED_MESSAGE + path);
     }
@@ -67,6 +82,14 @@ public class Ui {
         System.out.println(LINE_CORRUPTED_MESSAGE_A + lineNumber
                 + LINE_CORRUPTED_MESSAGE_B + message
                 + LINE_CORRUPTED_MESSAGE_C);
+    }
+
+    public static void sendNoPreviousSaveMessage() {
+        Reply.sendReply(NO_PREVIOUS_SAVE_MESSAGE);
+    }
+
+    public static void sendErrorMessage(String message) {
+        Reply.sendReply(message);
     }
 
     public static NikolausIOException throwSaveFileIssueMessage(String message) {
