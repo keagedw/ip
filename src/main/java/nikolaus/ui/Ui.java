@@ -40,7 +40,7 @@ public class Ui {
     private static final String EVENT_INFO_MISSING = "Event information missing";
     private static final String TASK_NOT_RECOGNISED_MESSAGE = "Task not recognised";
 
-    private static Scanner in;
+    private static Scanner in = new Scanner(System.in);
 
     private Ui() {
         in = new Scanner(System.in);
