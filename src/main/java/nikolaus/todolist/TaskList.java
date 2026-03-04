@@ -168,4 +168,29 @@ public class TaskList {
                     ReplyMode.BOTH);
         }
     }
+
+    public void find(String keyword) throws NikolausInputMismatchException {
+        ArrayList<Integer> taskIndices = new ArrayList<Integer>();
+
+        for (int i = 0; i < taskCount; i++) {
+            String[] tokens = tasks.get(i).description.split(" ");
+            for (String token : tokens) {
+                if (token.equals(keyword)) {
+                    taskIndices.add(i);
+                    break;
+                }
+            }
+        }
+
+        if (taskIndices.isEmpty()) {
+            Reply.sendReply("There aren't any tasks that match that Traveler...");
+            return;
+        }
+
+        Reply.sendReply("Alright Traveler! Here are the matching tasks:", ReplyMode.TOP);
+        for (int index : taskIndices) {
+            System.out.println((index + ZERO_ONE_INDEX_CONVERSION) + ": " + tasks.get(index).toString());
+        }
+        Reply.createBorder();
+    }
 }

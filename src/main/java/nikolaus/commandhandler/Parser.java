@@ -8,6 +8,7 @@ import nikolaus.command.AddDeadlineCommand;
 import nikolaus.command.DeleteCommand;
 import nikolaus.command.AddEventCommand;
 import nikolaus.command.FarewellCommand;
+import nikolaus.command.FindCommand;
 import nikolaus.command.ListCommand;
 import nikolaus.command.MarkCommand;
 import nikolaus.command.UnmarkCommand;
@@ -103,5 +104,6 @@ public class Parser {
         commandRegisters.put("deadline", args -> AddDeadlineCommand.parse(args, taskList));
         commandRegisters.put("event", args -> AddEventCommand.parse(args, taskList));
         commandRegisters.put("delete", args -> DeleteCommand.parse(args, taskList));
+        commandRegisters.put("find", args -> FindCommand.parse(args, taskList));
     }
 }
