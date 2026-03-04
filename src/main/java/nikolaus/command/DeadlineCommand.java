@@ -2,18 +2,16 @@ package nikolaus.command;
 
 import nikolaus.todolist.TaskList;
 
+import nikolaus.ui.Ui;
+
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 public class DeadlineCommand extends TaskCommand {
-    // Messages
-    private static final String NO_BY_INDICATOR_MESSAGE = "Traveler, you need to add \"/by\" !!!";
-    private static final String NO_ARGS_MESSAGE = "Traveler! I can't put nothing????";
-
     // Constants
     private static final String BY_INDICATOR = "/by";
     private static final int BY_LENGTH = 4;
     private static final int ZERO_INDEX = 0;
-    private static final int INDEXOF_NOT_FOUND_CODE = -1;
+    private static final int INDEX_NOT_FOUND_CODE = -1;
     private static final int ZERO_ONE_INDEX_CONVERSION = 1;
 
     // Variables
@@ -41,7 +39,7 @@ public class DeadlineCommand extends TaskCommand {
      */
     public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
-            throw new NikolausInputMismatchException(NO_ARGS_MESSAGE);
+            throw Ui.throwNoArgsException();
         }
         return new DeadlineCommand(args, taskList, parseDescription(args), parseBy(args));
     }
@@ -63,8 +61,8 @@ public class DeadlineCommand extends TaskCommand {
     private static String parseDescription(String args) throws NikolausInputMismatchException {
         int endIndex = args.indexOf(BY_INDICATOR);
 
-        if (endIndex == INDEXOF_NOT_FOUND_CODE) {
-            throw new NikolausInputMismatchException(NO_BY_INDICATOR_MESSAGE);
+        if (endIndex == INDEX_NOT_FOUND_CODE) {
+            throw Ui.throwNoByException();
         }
 
         return args.substring(ZERO_INDEX, endIndex - ZERO_ONE_INDEX_CONVERSION);
@@ -79,8 +77,8 @@ public class DeadlineCommand extends TaskCommand {
     private static String parseBy(String args) throws NikolausInputMismatchException {
         int startIndex = args.indexOf(BY_INDICATOR);
 
-        if (startIndex == INDEXOF_NOT_FOUND_CODE) {
-            throw new NikolausInputMismatchException(NO_BY_INDICATOR_MESSAGE);
+        if (startIndex == INDEX_NOT_FOUND_CODE) {
+            throw Ui.throwNoByException();
         }
 
         return args.substring(startIndex + BY_LENGTH);

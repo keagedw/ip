@@ -1,14 +1,12 @@
 package nikolaus.command;
 
 import nikolaus.ui.Reply;
+import nikolaus.ui.Ui;
 
 /**
  * Ends program wih farewell
  */
 public class FarewellCommand extends Command {
-    private static final String FAREWELL_MESSAGE = "Farewell!!! "
-            + "I bid you the best of luck on your journey!!!";
-
     /**
      * {@inheritDoc}
      */
@@ -35,6 +33,6 @@ public class FarewellCommand extends Command {
 
     @Override
     public void execute() {
-        Reply.sendReply(FAREWELL_MESSAGE);
+        Ui.sendFarewellMessage();
     }
 }

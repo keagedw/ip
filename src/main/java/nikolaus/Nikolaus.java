@@ -1,7 +1,6 @@
 package nikolaus;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import nikolaus.storage.Storage;
 
@@ -27,14 +26,12 @@ public class Nikolaus {
     private TaskList taskList;
     private Storage storage;
     private Parser parser;
-    private Ui ui;
     private boolean willExit;
 
     public Nikolaus(String filePath) {
         taskList = new TaskList();
         storage = new Storage(filePath);
         parser = new Parser(taskList);
-        ui = new Ui();
         willExit = false;
     }
 
@@ -79,12 +76,12 @@ public class Nikolaus {
     private void run() {
         loadSaves();
 
-        ui.introduce();
+        Ui.introduce();
 
         // keeps looping until command signals to stop
         while (!willExit) {
             // gets input from user
-            String inputCommand = ui.nextLine();
+            String inputCommand = Ui.nextLine();
 
             try {
                 // handler processes command; returns command run

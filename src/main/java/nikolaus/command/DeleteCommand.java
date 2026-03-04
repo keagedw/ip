@@ -2,16 +2,14 @@ package nikolaus.command;
 
 import nikolaus.todolist.TaskList;
 
+import nikolaus.ui.Ui;
+
 import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
  * Used to delete Task from TaskList
  */
 public class DeleteCommand extends ToDoListCommand {
-    // Messages
-    private static final String NO_INDEX_MESSAGE = "You must provide an index Traveler!";
-    private static final String NOT_A_NUMBER_MESSAGE = "Uhhhhhhh Traveler? I don't think that's a number...";
-
     // Variables
     private int index;
 
@@ -37,14 +35,14 @@ public class DeleteCommand extends ToDoListCommand {
      */
     public static Command parse(String args, TaskList taskList) throws NikolausInputMismatchException {
         if (args.isEmpty()) {
-            throw new NikolausInputMismatchException(NO_INDEX_MESSAGE);
+            throw Ui.throwNoIndexException();
         }
 
         try {
             int argsIndex = Integer.parseInt(args);
             return new DeleteCommand(args, taskList, argsIndex);
         } catch (NumberFormatException noNumberError) {
-            throw new NikolausInputMismatchException(NOT_A_NUMBER_MESSAGE);
+            throw Ui.throwNotNumberException();
         }
     }
 
