@@ -1,5 +1,8 @@
 package nikolaus.todolist;
 
+/**
+ * Task that includes just description
+ */
 public class ToDo extends Task{
     private static final String TODO_TYPE_SIGN = "T";
 

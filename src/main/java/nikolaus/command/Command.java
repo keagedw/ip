@@ -1,6 +1,7 @@
 package nikolaus.command;
 
 /**
+ * Routes command line input to command execution
  * Executes action when triggered by command from user
  */
 public class Command {

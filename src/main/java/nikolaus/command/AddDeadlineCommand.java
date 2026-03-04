@@ -6,6 +6,10 @@ import nikolaus.ui.Ui;
 
 import nikolaus.exceptions.NikolausInputMismatchException;
 
+/**
+ * Routes command line input to command execution
+ * Adds a deadline to TaskList
+ */
 public class AddDeadlineCommand extends AddTaskCommand {
     // Constants
     private static final String BY_INDICATOR = "/by";
@@ -45,7 +49,7 @@ public class AddDeadlineCommand extends AddTaskCommand {
     }
 
     /**
-     * Adds todo to TaskList
+     * Adds deadline to TaskList
      */
     @Override
     public void execute() {

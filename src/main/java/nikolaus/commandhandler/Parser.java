@@ -21,7 +21,8 @@ import nikolaus.exceptions.NikolausInputMismatchException;
 
 /**
  * Processes and Handles user command inputs
- * Triggers appropriate trigger
+ * Routes user command inputs to specific command classes
+ * Parses argument information for command creation
  */
 public class Parser {
     protected TaskList taskList;

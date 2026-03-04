@@ -3,6 +3,7 @@ package nikolaus.command;
 import nikolaus.todolist.TaskList;
 
 /**
+ * Routes command line input to command execution
  * TaskList specific commands
  */
 public class ToDoListCommand extends Command {
