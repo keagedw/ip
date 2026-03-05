@@ -163,7 +163,7 @@ public class TaskList {
         for (int i = 0; i < taskCount; i++) {
             String[] tokens = tasks.get(i).description.split(" ");
             for (String token : tokens) {
-                if (token.equals(keyword)) {
+                if (token.equalsIgnoreCase(keyword)) {
                     taskIndices.add(i);
                     break;
                 }
